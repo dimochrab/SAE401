@@ -15,9 +15,6 @@ class Utilisateur
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $UserID = null;
-
     #[ORM\Column(length: 255)]
     private ?string $Username = null;
 
