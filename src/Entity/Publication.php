@@ -22,6 +22,8 @@ class Publication
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $DateTime = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $LikesCount = null;
 
     #[ORM\ManyToOne(inversedBy: 'publications')]
     #[ORM\JoinColumn(nullable: false)]
