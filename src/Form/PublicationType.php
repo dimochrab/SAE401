@@ -17,7 +17,6 @@ class PublicationType extends AbstractType
             ->add('DateTime', null, [
                 'widget' => 'single_text',
             ])
-            ->add('LikesCount')
             ->add('UserID', EntityType::class, [
                 'class' => Utilisateur::class,
                 'choice_label' => 'id',

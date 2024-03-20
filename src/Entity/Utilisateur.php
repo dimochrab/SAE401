@@ -36,8 +36,6 @@ class Utilisateur
     #[ORM\OneToMany(targetEntity: Publication::class, mappedBy: 'UserID')]
     private Collection $publications;
 
-    #[ORM\OneToMany(targetEntity: Likes::class, mappedBy: 'UserID')]
-    private Collection $likes;
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'UserID')]
     private Collection $commentaires;
@@ -49,7 +47,6 @@ class Utilisateur
     {
         $this->connexions = new ArrayCollection();
         $this->publications = new ArrayCollection();
-        $this->likes = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->follows = new ArrayCollection();
     }
@@ -191,35 +188,6 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection<int, Likes>
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(Likes $like): static
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
-            $like->setUserID($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(Likes $like): static
-    {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getUserID() === $this) {
-                $like->setUserID(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Commentaire>

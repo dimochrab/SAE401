@@ -29,15 +29,12 @@ class Publication
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $UserID = null;
 
-    #[ORM\OneToMany(targetEntity: Likes::class, mappedBy: 'PostID')]
-    private Collection $likes;
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'PostID')]
     private Collection $commentaires;
 
     public function __construct()
     {
-        $this->likes = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
     }
 
@@ -94,35 +91,6 @@ class Publication
         return $this;
     }
 
-    /**
-     * @return Collection<int, Likes>
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(Likes $like): static
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
-            $like->setPostID($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(Likes $like): static
-    {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getPostID() === $this) {
-                $like->setPostID(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Commentaire>
