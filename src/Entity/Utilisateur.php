@@ -5,10 +5,14 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+#[UniqueEntity(fields: ['Email'], message: 'There is already an account with this Email')]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -56,16 +60,9 @@ class Utilisateur
         return $this->id;
     }
 
-    public function getUserID(): ?int
+    public function getUserIdentifier(): string
     {
-        return $this->UserID;
-    }
-
-    public function setUserID(int $UserID): static
-    {
-        $this->UserID = $UserID;
-
-        return $this;
+        return (string) $this->Email; // Ou toute autre propriété qui représente l'identifiant de l'utilisateur
     }
 
     public function getUsername(): ?string
@@ -128,9 +125,6 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection<int, Connexion>
-     */
     public function getConnexions(): Collection
     {
         return $this->connexions;
@@ -149,7 +143,6 @@ class Utilisateur
     public function removeConnexion(Connexion $connexion): static
     {
         if ($this->connexions->removeElement($connexion)) {
-            // set the owning side to null (unless already changed)
             if ($connexion->getUserID() === $this) {
                 $connexion->setUserID(null);
             }
@@ -158,9 +151,6 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection<int, Publication>
-     */
     public function getPublications(): Collection
     {
         return $this->publications;
@@ -179,7 +169,6 @@ class Utilisateur
     public function removePublication(Publication $publication): static
     {
         if ($this->publications->removeElement($publication)) {
-            // set the owning side to null (unless already changed)
             if ($publication->getUserID() === $this) {
                 $publication->setUserID(null);
             }
@@ -188,10 +177,6 @@ class Utilisateur
         return $this;
     }
 
-
-    /**
-     * @return Collection<int, Commentaire>
-     */
     public function getCommentaires(): Collection
     {
         return $this->commentaires;
@@ -210,7 +195,6 @@ class Utilisateur
     public function removeCommentaire(Commentaire $commentaire): static
     {
         if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
             if ($commentaire->getUserID() === $this) {
                 $commentaire->setUserID(null);
             }
@@ -219,9 +203,6 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection<int, Follow>
-     */
     public function getFollows(): Collection
     {
         return $this->follows;
@@ -240,12 +221,25 @@ class Utilisateur
     public function removeFollow(Follow $follow): static
     {
         if ($this->follows->removeElement($follow)) {
-            // set the owning side to null (unless already changed)
             if ($follow->getUserID() === $this) {
                 $follow->setUserID(null);
             }
         }
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+    }
+    public function supportsClass(string $class)
+    {
+        return $class === 'App\Entity\Utilisateur';
     }
 }

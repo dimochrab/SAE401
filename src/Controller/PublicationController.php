@@ -30,7 +30,6 @@ class PublicationController extends AbstractController
         return $this->render('publication/index.html.twig', [
             'controller_name' => 'PublicationController',
             'form' => $form->createView(),
-
         ]);
     }
 }
