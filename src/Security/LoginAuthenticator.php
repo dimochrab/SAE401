@@ -42,6 +42,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
@@ -49,8 +50,16 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    }
+
+    public function onAuthenticationFailure(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception): Response
+    {
+        // Redirect the user back to the login page with error message
+        $request->getSession()->getFlashBag()->add('error', $exception->getMessage());
+
+        return new RedirectResponse($this->getLoginUrl($request));
     }
 
     protected function getLoginUrl(Request $request): string
