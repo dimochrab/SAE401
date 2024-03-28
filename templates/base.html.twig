@@ -11,9 +11,6 @@
         {% endblock %}
 
         {% block javascripts %}
-            <script>
-            feather.replace()
-            </script>
             {{ encore_entry_script_tags('app') }}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
@@ -49,4 +46,9 @@
                     SIGNUp</a></li>
                 </ul>
             </nav>
+{% endif %}
 
+        </header>
+        {% block body %}{% endblock %}
+    </body>
+</html>
