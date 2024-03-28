@@ -25,15 +25,15 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
-
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('username', ''); // Correction ici
-
-        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
-
+        // Changez cette ligne pour utiliser 'username' au lieu de 'email'
+        $username = $request->request->get('username', ''); // Récupère le username depuis le champ 'username'
+    
+        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
+    
         return new Passport(
-            new UserBadge($email),
+            new UserBadge($username),
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
@@ -41,6 +41,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             ]
         );
     }
+    
 
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

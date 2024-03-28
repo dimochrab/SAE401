@@ -38,8 +38,10 @@
                     </div>
                 </div>
                 <a href="#">Forgot Password?</a>
+                
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 <input type="submit" class="btn" value="Login">
+                <a href="{{ path('app_register') }}" class="btn" value="Register">Register</a>   
             </form>
         </div>
     </div>

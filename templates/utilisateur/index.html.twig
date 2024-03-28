@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UtilisateurController!{% endblock %}
+{% block title %}Profil de l’utilisateur{% endblock %}
 
 {% block body %}
+    <h2>Profil de l’utilisateur</h2>
+    <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+    <p>Email: {{ utilisateur.email }}</p>
+    <img src={{ utilisateur.profile_picture }} alt="Photo de profil">
 
-        <h1>Stay awake and Sign Up</h1>
-        <h1>Formulaire</h1>
 
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Submit</button>
+    {# Afficher d'autres informations de l'utilisateur comme vous le souhaitez #}
 {% endblock %}
+
