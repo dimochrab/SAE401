@@ -50,10 +50,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Bio = null;
 
-    #[ORM\Column(type: 'json')]
-    private array $roles = [];
-
-
     public function __construct()
     {
         $this->connexions = new ArrayCollection();
@@ -238,11 +234,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-
+        return ['ROLE_USER'];
     }
 
     public function eraseCredentials(): void
@@ -262,13 +254,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBio(?string $Bio): static
     {
         $this->Bio = $Bio;
-
-        return $this;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
 
         return $this;
     }
