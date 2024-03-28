@@ -28,7 +28,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('Email', '');
+        $email = $request->request->get('username', ''); // Correction ici
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
@@ -54,13 +54,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
-    public function onAuthenticationFailure(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $exception): Response
-    {
-        // Redirect the user back to the login page with error message
-        $request->getSession()->getFlashBag()->add('error', $exception->getMessage());
 
-        return new RedirectResponse($this->getLoginUrl($request));
-    }
 
     protected function getLoginUrl(Request $request): string
     {
