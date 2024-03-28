@@ -5,8 +5,12 @@
 {% block body %}
     <h2>Profil de l’utilisateur</h2>
     <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+    <p>Bio: {{ utilisateur.Bio }}</p>
     <p>Email: {{ utilisateur.email }}</p>
-    <img src={{ utilisateur.profile_picture }} alt="Photo de profil">
+    <img src={{ utilisateur.ProfilePicture }} alt="Photo de profil">
+         <img src={{ utilisateur.ProfileCover }} alt="Photo de cover">
+         <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
+
 
 
     {# Afficher d'autres informations de l'utilisateur comme vous le souhaitez #}
