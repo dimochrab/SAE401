@@ -3,11 +3,18 @@
 {% block title %}Hello UtilisateurController!{% endblock %}
 
 {% block body %}
+    <h2>Profil de l’utilisateur</h2>
+    <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+    <p>Bio: {{ utilisateur.Bio }}</p>
+    <p>Email: {{ utilisateur.email }}</p>
 
-        <h1>Stay awake and Sign Up</h1>
-        <h1>Formulaire</h1>
+        <img src="{{ asset('Img/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
+        <img src="{{ asset('Img/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
 
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+         <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
+
+
+
+    {# Afficher d'autres informations de l'utilisateur comme vous le souhaitez #}
 {% endblock %}
