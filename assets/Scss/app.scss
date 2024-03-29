@@ -1,9 +1,10 @@
 body {
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+    margin: 0;
 }
 
-// Définition de la classe de base pour les boutons
+$primary-color: #38d39f;
+
 .btn-base {
     display: block;
     width: 100%;
@@ -178,7 +179,6 @@ body {
             }
         }
 
-                // Style du bouton par défaut
         .btn {
             @extend .btn-base;
             background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
@@ -189,7 +189,6 @@ body {
             }
         }
 
-        // Style d'un autre type de bouton
         .btn-secondary {
             @extend .btn-base;
             background-color: #555;
@@ -201,6 +200,104 @@ body {
         }
     }
 }
+
+.logged-in-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    background-color: #ebebeb;
+    color: $primary-color;
+    
+    .nav-links {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        
+        .nav-item {
+            display: inline-block;
+            margin-left: 20px;
+            
+            &:first-child {
+                margin-left: 0;
+            }
+            
+            a {
+                text-decoration: none;
+                color: inherit;
+                font-weight: bold;
+                font-size: 16px;
+                transition: color 0.3s;
+                
+                &:hover {
+                    color: #497a69;
+                }
+            }
+        }
+    }
+    
+    .logo {
+        margin-right: auto;
+        
+        img {
+            width: 120px;
+        }
+    }
+}
+
+
+.profil {
+    text-align: center;
+    margin-left: 10%;
+    width: 50%;
+    background-color: rgb(230, 230, 230);
+
+    .imgprofil {
+        width: 100%;
+        height: 50vh;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+  
+                .cover {
+                width: 100%;
+                height: 50vh;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                }
+            
+                .profil-cov {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                position: absolute;
+                bottom: 40%;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 5px solid #fff;
+                }
+            }
+  
+    h2 {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+  
+    p {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  
+    a {
+      display: block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007bff;
+      font-size: 18px;
+    }
+  }
+  
 
 @media screen and (max-width: 1050px) {
     .container {
