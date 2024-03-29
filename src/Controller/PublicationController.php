@@ -58,4 +58,32 @@ class PublicationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/publication/edit/{id}', name: 'publication_edit')]
+    public function edit(Request $request, Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(PublicationType::class, $publication);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Publication modifiée avec succès.');
+
+            return $this->redirectToRoute('app_utilisateur');
+        }
+
+        return $this->render('publication/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/publication/delete/{id}', name: 'publication_delete')]
+    public function delete(Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($publication);
+        $entityManager->flush();
+        $this->addFlash('success', 'Publication supprimée avec succès.');
+
+        return $this->redirectToRoute('app_utilisateur');
+    }
+
+
 }
