@@ -8,8 +8,8 @@
     <p>Bio: {{ utilisateur.Bio }}</p>
     <p>Email: {{ utilisateur.email }}</p>
 
-        <img src="{{ asset('Img/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
-        <img src="{{ asset('Img/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
+        <img src="{{ asset('/uploads/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
+        <img src="{{ asset('/uploads/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
 
 
          <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
