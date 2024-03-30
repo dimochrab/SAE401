@@ -31,7 +31,7 @@ class PublicationController extends AbstractController
                 // Obtenir l'extension du fichier
                 $fileExtension = $file->guessExtension();
                 // Construire le nouveau nom de fichier en utilisant l'ID de l'utilisateur et l'extension du fichier
-                $newFilename = "PublicationUploads_" . $user->getId() . "." . $fileExtension;
+                $newFilename = "PublicationUploads_" . $user->getId() . "_" . time() . "." . $fileExtension;
         
                 // Déplacer le fichier dans le répertoire où vos fichiers sont stockés
                 try {
