@@ -1,15 +1,19 @@
 <?php
 
-
 namespace App\Form;
 
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+
+
 
 class UtilisateurType extends AbstractType
 {
@@ -17,22 +21,47 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                // Attribut placeholder pour le champ 'username'
                 'attr' => ['placeholder' => 'Votre nom d\'utilisateur'],
-                'required' => false, // Définissez selon vos besoins
+                'required' => false,
             ])
             ->add('email', EmailType::class, [
-                // Attribut placeholder pour le champ 'email'
                 'attr' => ['placeholder' => 'Votre adresse email'],
-                'required' => false, // Définissez selon vos besoins
+                'required' => false,
             ])
             ->add('bio', TextareaType::class, [
-                // Attribut placeholder pour le champ 'bio'
                 'attr' => ['placeholder' => 'Votre bio'],
                 'required' => false,
             ])
-            // Ajoutez d'autres champs selon les besoins
-        ;
+            ->add('profilePicture', FileType::class, [
+                'label' => 'Photo de profil',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide',
+                    ])
+                ],
+            ])
+            ->add('coverPhoto', FileType::class, [
+                'label' => 'Photo de couverture',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide',
+                    ])
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

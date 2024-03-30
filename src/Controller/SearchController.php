@@ -4,24 +4,26 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use App\Repository\PublicationRepository;
 use Symfony\Component\Routing\Attribute\Route;
-use app\Entity\Publication;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
+use App\Repository\PublicationRepository;
+use App\Repository\UtilisateurRepository;
 
-class HomeController extends AbstractController
+
+class SearchController extends AbstractController
 {
-    private $security;
+    #[Route('/search', name: 'app_search')]
+    public function search(Request $request, PublicationRepository $publicationRepo, UtilisateurRepository $userRepo)
+    {
+        $query = $request->query->get('query');
 
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-    #[Route('/home', name: 'app_home')]
-    public function index(PublicationRepository $publicationRepository): Response
-    {
-        $publications = $publicationRepository->findBy([], ['DateTime' => 'DESC']);
-        $user = $this->getUser();
+        if ($query) {
+            $publications = $publicationRepo->findByQuery($query);
+            $users = $userRepo->findByQuery($query);
+        } else {
+            $publications = [];
+            $users = [];
+        }
         
         foreach ($publications as $publication) {
             $filename = $publication->getPostContent();
@@ -34,10 +36,11 @@ class HomeController extends AbstractController
                 $publication->fileType = 'unknown';
             }
         }
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+
+        return $this->render('search/index.html.twig', [
             'publications' => $publications,
+            'users' => $users,
+            'query' => $query
         ]);
     }
-    
 }
