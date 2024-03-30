@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
 class Publication
@@ -16,8 +18,6 @@ class Publication
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $PostID = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $DateTime = null;
@@ -30,8 +30,14 @@ class Publication
     private ?Utilisateur $UserID = null;
 
 
-    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'PostID')]
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'PostID', cascade: ["remove"])]
     private Collection $commentaires;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Post_type = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Post_content = null;
 
     public function __construct()
     {
@@ -118,6 +124,30 @@ class Publication
                 $commentaire->setPostID(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPostType(): ?string
+    {
+        return $this->Post_type;
+    }
+
+    public function setPostType(string $Post_type): static
+    {
+        $this->Post_type = $Post_type;
+
+        return $this;
+    }
+
+    public function getPostContent(): ?string
+    {
+        return $this->Post_content;
+    }
+
+    public function setPostContent(?string $Post_content): static
+    {
+        $this->Post_content = $Post_content;
 
         return $this;
     }

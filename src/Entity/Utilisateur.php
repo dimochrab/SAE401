@@ -47,6 +47,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'UserID')]
     private Collection $follows;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Bio = null;
+
+    #[ORM\Column(name: 'roles', type: 'json', nullable: true)]
+    private ?array $roles = null;
+
     public function __construct()
     {
         $this->connexions = new ArrayCollection();
@@ -241,5 +247,24 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function supportsClass(string $class)
     {
         return $class === 'App\Entity\Utilisateur';
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->Bio;
+    }
+
+    public function setBio(?string $Bio): static
+    {
+        $this->Bio = $Bio;
+
+        return $this;
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 }
