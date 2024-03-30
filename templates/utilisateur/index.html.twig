@@ -4,26 +4,28 @@
     <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
 {% endblock %}
 
-
 {% block body %}
     <div class="profil">
         <div class="imgprofil">
             <img class="profil-cov" src="{{ asset('img/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
             <img class="cover" src="{{ asset('img/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
         </div>
-            <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
-             <h2>Profil de l’utilisateur</h2>
+        <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
+        <h2>Profil de l’utilisateur</h2>
         <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
         <p>Bio: {{ utilisateur.Bio }}</p>
         <p>Email: {{ utilisateur.email }}</p>
     </div>
-    <div class="publication">
-        <h2>publication de l’utilisateur</h2>
-        {% for publication in utilisateur.publications %}
-            <div class="publication">
-                <p>{{ publication.content }}</p>
-                <p>{{ publication.createdAt|date('d/m/Y') }}</p>
+
+    <div class="suggestions">
+        <h3>Suggestions d'amis:</h3>
+        {% for utilisateurs in utilisateur %}
+            <div class="suggestion">
+                <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+                <p>Bio: {{ utilisateur.Bio }}</p>
+                <p>Email: {{ utilisateur.email }}</p>
             </div>
         {% endfor %}
+    </div>
 {% endblock %}
 
