@@ -13,7 +13,7 @@
         <div class="img">
             <img src="{{ asset('img/bg.svg') }}">
         </div>
-        <div class="login-content">
+                <div class="login-content">
             <form class="form-login" method="post">
 
                 {% if app.user %}
@@ -22,36 +22,66 @@
                     </div>
                 {% endif %}
 
-                <h2 class="title">Register</h2>
+                <img src="{{ asset('img/logoconnect.png') }}">
 
                 {{ form_errors(registrationForm) }}
 
                 {{ form_start(registrationForm) }}
                 
                 <div class="input-div one">
-                    {{ form_row(registrationForm.Username, {'attr': {'placeholder': 'Username'}}) }}
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.Username, {'attr': {'class': 'input', 'placeholder': 'Username'}}) }}
+                    </div>
                 </div>
                 
                 <div class="input-div one">
-                    {{ form_row(registrationForm.Email, {'attr': {'placeholder': 'Email'}}) }}
+                    <div class="i">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.Email, {'attr': {'class': 'input', 'placeholder': 'Email'}}) }}
+                    </div>
                 </div>
                 
                 <div class="input-div one">
-                    {{ form_row(registrationForm.Profile_picture, {'attr': {'placeholder': 'Profile Picture URL'}}) }}
+                    <div class="i">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.Profile_picture, {'attr': {'class': 'input', 'placeholder': 'Profile Picture URL'}}) }}
+                    </div>
                 </div>
                 
                 <div class="input-div one">
-                    {{ form_row(registrationForm.Profile_cover, {'attr': {'placeholder': 'Profile Cover URL'}}) }}
+                    <div class="i">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.Profile_cover, {'attr': {'class': 'input', 'placeholder': 'Profile Cover URL'}}) }}
+                    </div>
+                </div>
+                
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'input', 'placeholder': 'Password'}}) }}
+                    </div>
                 </div>
                 
                 <div class="input-div one">
-                    {{ form_row(registrationForm.plainPassword, {'attr': {'placeholder': 'Password'}}) }}
+                    <div class="i">
+                        <input type="checkbox" class="input" name="RGPDConsent" id="RGPDConsent" />
+                    </div>
+                    <div class="div">
+                        <label for="RGPDConsent">I agree to the Terms and Privacy Policy</label>
+                    </div>
                 </div>
                 
-                <div class="input-div one">
-                    {{ form_row(registrationForm.RGPDConsent) }}
-                </div>
-
                 <button type="submit" class="btn btn-primary btn-lg">Register</button>
                 
                 {{ form_end(registrationForm) }}

@@ -1,5 +1,6 @@
 body {
     font-family: 'Poppins', sans-serif;
+    overflow: auto;
     margin: 0;
 }
 
@@ -35,7 +36,6 @@ $primary-color: #38d39f;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 7rem;
-    padding: 0 2rem;
 
     .img {
         display: flex;
@@ -63,6 +63,7 @@ $primary-color: #38d39f;
 
         img {
             width: 250px;
+            height: auto;
             margin-bottom: 2rem;
         }
 
@@ -248,9 +249,11 @@ $primary-color: #38d39f;
 
 
 .profil {
+    display: inline-block; /* Modifier pour inline-block */
+    vertical-align: top;
     text-align: center;
-    margin-left: 10%;
-    width: 50%;
+    margin-left: 7%;
+    width: 60%;
     background-color: rgb(230, 230, 230);
 
     .imgprofil {
@@ -298,6 +301,30 @@ $primary-color: #38d39f;
       font-size: 18px;
     }
   }
+
+  .suggestions {
+    display: inline-block; 
+    vertical-align: top;
+    background-color: rgb(230, 230, 230);
+    padding: 20px;
+    width: 20%;
+    margin-left: 5%;
+}
+
+.suggestions-bar {
+    width: 5px;
+    height: 50px;
+    background-color: #000;
+    margin-bottom: 20px;
+}
+
+.suggestion {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
   
 
 @media screen and (max-width: 1050px) {
