@@ -20,6 +20,17 @@ class PublicationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Publication::class);
     }
+    public function findByQuery($query)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Post_type LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    
+    
 
     //    /**
     //     * @return Publication[] Returns an array of Publication objects
@@ -46,3 +57,5 @@ class PublicationRepository extends ServiceEntityRepository
     //        ;
     //    }
 }
+
+

@@ -20,6 +20,15 @@ class UtilisateurRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Utilisateur::class);
     }
+    public function findByQuery($query)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.Username LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getQuery()
+            ->getResult();
+    }
+    
 
     //    /**
     //     * @return Utilisateur[] Returns an array of Utilisateur objects
@@ -46,3 +55,4 @@ class UtilisateurRepository extends ServiceEntityRepository
     //        ;
     //    }
 }
+

@@ -85,5 +85,28 @@ class PublicationController extends AbstractController
         return $this->redirectToRoute('app_utilisateur');
     }
 
-
+    #[Route('/like/publication/{id}', name: 'like_publication', methods: ['POST'])]
+    public function likePublication($id, Request $request, EntityManagerInterface $em): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $publication = $em->getRepository(Publication::class)->find($id);
+    
+        if (!$publication) {
+            return $this->json(['error' => 'Publication non trouvée'], 404);
+        }
+    
+        if ($data['like']) {
+            // Logique pour "liker" : incrémenter les likes
+            $publication->setLikesCount($publication->getLikesCount() + 1);
+        } else {
+            // Logique pour "disliker" : décrémenter les likes
+            $publication->setLikesCount($publication->getLikesCount() - 1);
+        }
+    
+        $em->flush();
+    
+        // Ici, vous pouvez également ajouter une logique pour notifier l'utilisateur
+    
+        return $this->json(['message' => 'Succès']);
+    }
 }

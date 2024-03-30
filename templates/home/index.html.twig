@@ -1,26 +1,99 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
+{% block javascripts %}
+<script>
 
+
+document.querySelectorAll('.comment-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Le formulaire est bien intercepté !'); // Ou console.log pour moins d'intrusivité.
+    // Le reste de votre code...
+});
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const publicationId = formData.get('publicationId');
+        const content = formData.get('content');
+
+        fetch('/api/commentaire', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Ajoutez ici d'autres headers si nécessaire, par exemple pour la sécurité
+            },
+            body: JSON.stringify({ content: content, publicationId: publicationId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.error) {
+                alert(data.error);
+            } else {
+                // Logique pour ajouter le commentaire au DOM sans recharger la page
+                alert('Commentaire ajouté: ' + data.content);
+                // Vous pouvez ici rafraîchir les commentaires ou rediriger l'utilisateur
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    });
+});
+
+document.querySelectorAll('.like-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        const publicationId = this.dataset.publicationId;
+        fetch(`/like/publication/${publicationId}`, { method: 'POST' }) // Assurez-vous que l'URL correspond à votre configuration de route
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message); // Gérer la réponse ici
+        })
+        .catch(error => console.error('Erreur:', error));
+                // Mettez à jour le nombre de j'aime ici
+                // Par exemple, en recherchant un élément frère du bouton et en mettant à jour son texte.
+            
+    });
+});
+
+</script>
+{% endblock %}
 {% block body %}
 <h2>Publications</h2>
 <div>
     {% for publication in publications %}
         <div>
-                    <p>Posté par : {{ publication.userID.username }}</p>
-                    <img src="{{ asset('/uploads/' ~ publication.userID.profilePicture) }}" alt="Image de profil" style="width: 40px;">
+            <p>Posté par : {{ publication.userID.username }}</p>
+            <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Image de profil" style="width: 40px;">
 
-            <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
+            <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
             <p>{{ publication.postType }}</p>
 
             {% if publication.fileType == 'image' %}
-                <img src="{{ asset('/uploads/' ~ publication.postContent) }}" alt="Image de publication">
+                <img src="{{ asset('uploads/' ~ publication.postContent) }}" alt="Image de publication">
             {% elseif publication.fileType == 'video' %}
-                <video controls src="{{ asset('/uploads/' ~ publication.postContent) }}"></video>
+                <video controls src="{{ asset('uploads/' ~ publication.postContent) }}"></video>
             {% endif %}
+            <p>{{ publication.likesCount }}:like</p>
+            <button data-publication-id="{{ publication.id }}" class="like-btn">J'aime</button>
+
+            <!-- Affichage des commentaires pour cette publication -->
+            <div>
+                {% for commentaire in publication.commentaires %}
+                    <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Image de profil" style="width: 25px;">
+                    <p>{{ commentaire.userID.username }}
+                    : {{ commentaire.content }}</p><p style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
+                {% endfor %}
+            </div>
+
+            <!-- Formulaire d'ajout de commentaire -->
+            <form class="comment-form" data-publication-id="{{ publication.id }}" action="" method="post">
+                <input type="text" name="content" placeholder="Ajoutez un commentaire...">
+                <input type="hidden" name="publicationId" value="{{ publication.id }}">
+                <button type="submit">Commenter</button>
+            </form>
         </div>
-    {% else %}
-        <p>Aucune publication à afficher.</p>
     {% endfor %}
 </div>
 {% endblock %}
+
+
