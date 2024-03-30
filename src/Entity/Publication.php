@@ -30,7 +30,7 @@ class Publication
     private ?Utilisateur $UserID = null;
 
 
-    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'PostID')]
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'PostID', cascade: ["remove"])]
     private Collection $commentaires;
 
     #[ORM\Column(length: 255)]
