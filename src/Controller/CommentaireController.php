@@ -11,6 +11,7 @@ use App\Entity\Commentaire;
 use App\Entity\Publication;
 use Symfony\Bundle\SecurityBundle\Security;
 
+
 class CommentaireController extends AbstractController
 {
     private $security;
@@ -24,7 +25,7 @@ class CommentaireController extends AbstractController
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $data = json_decode($request->getContent(), true);
-        $user = $this->getUser();
+        $user = $this->security->getUser();
 
         if (!$user) {
             return $this->json(['error' => 'Utilisateur non authentifié'], Response::HTTP_FORBIDDEN);
@@ -40,8 +41,9 @@ class CommentaireController extends AbstractController
             return $this->json(['error' => 'Publication introuvable'], Response::HTTP_NOT_FOUND);
         }
 
-        $commentaire->setUser($user);
-        $commentaire->setPublication($publication);
+        // Utilisez setUserID au lieu de setUser
+        $commentaire->setUserID($user);
+        $commentaire->setPostID($publication);
 
         $entityManager->persist($commentaire);
         $entityManager->flush();
@@ -51,5 +53,4 @@ class CommentaireController extends AbstractController
             'content' => $commentaire->getContent(),
         ]);
     }
-    
 }
