@@ -11,13 +11,13 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
-    {% endblock %}
-</head>
-<body>
-<header>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+        <header>
     {% if app.user %}
         {# Si l'utilisateur est connecté, affichez cette navbar #}
         <nav class="logged-in-nav">
@@ -32,8 +32,12 @@
                 <li class="nav-item"><a href="{{ path('app_index') }}"><i class="material-icons">home</i></a></li>
                 <li class="nav-item"><a href="{{ path('app_logout') }}"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
-        </nav>
-    {% else %}
+                <form action="{{ path('app_search') }}" method="get">
+                    <input type="text" name="query" placeholder="Rechercher des posts ou des profils...">
+                    <button type="submit">Rechercher</button>
+                </form>
+            </nav>
+{% else %}
         {# Si l'utilisateur n'est pas connecté, affichez cette autre navbar #}
          <nav class="logged-out-nav">
             <div class="logo">
@@ -46,10 +50,11 @@
                     <li class="nav-item"><a href="{{ path('app_login') }}"><i class="material-icons">login</i></a></li>
                     <li class="nav-item"><a href="{{ path('app_register') }}"><i class="material-icons">person_add</i></a></li>
                 </ul>
-        </nav>
-    {% endif %}
+            </nav>
+{% endif %}
 
-</header>
-{% block body %}{% endblock %}
+
+    </header>
+    {% block body %}{% endblock %}
 </body>
 </html>

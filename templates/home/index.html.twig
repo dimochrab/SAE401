@@ -1,20 +1,107 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.comment-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const publicationId = formData.get('publicationId');
+            const content = formData.get('content');
+
+            fetch('/api/commentaire', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: content, publicationId: publicationId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.error) {
+                    console.error(data.error);
+                } else {
+                window.location.reload();
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        });
+    });
+
+document.querySelectorAll('.like-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        const publicationId = this.dataset.publicationId;
+        fetch(`/like/publication/${publicationId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ like: true }) // Assurez-vous que cela correspond à ce que votre backend attend
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const likesCountElement = this.previousElementSibling;
+                let likesCount = parseInt(likesCountElement.textContent);
+                if (this.textContent === 'Like') {
+                    likesCountElement.textContent = `${++likesCount} likes`;
+                    this.textContent = 'Liked';
+                } else {
+                    likesCountElement.textContent = `${--likesCount} likes`;
+                    this.textContent = 'Like';
+                }
+            } else {
+                alert('Une erreur est survenue.');
+            }
+        })
+        .catch(error => console.error('Erreur:', error));
+    });
+});
+
+
+});
+</script>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<h2>Publications</h2>
+<div>
+    {% for publication in publications %}
+        <div>
+            <p>Posté par : {{ publication.userID.username |e }}</p>
+            <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}" style="width: 40px;">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
+            <p>{{ publication.postType |e }}</p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/ws401/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/var/www/ws401/templates/home/index.html.twig</code></li>
-    </ul>
+            {% if publication.fileType == 'image' %}
+                <img src="{{ asset('uploads/' ~ publication.postContent) }}" alt="Publication">
+            {% elseif publication.fileType == 'video' %}
+                <video controls src="{{ asset('uploads/' ~ publication.postContent) }}"></video>
+            {% endif %}
+            <p>{{ publication.likesCount }} likes</p>
+            <button data-publication-id="{{ publication.id }}" class="like-btn">J'aime</button>
+
+            <div>
+                {% for commentaire in publication.commentaires %}
+                    <p>
+                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username |e }}" style="width: 25px;">
+                        {{ commentaire.userID.username |e }}: {{ commentaire.content |e }}
+                        <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
+                    </p>
+                {% endfor %}
+            </div>
+
+            <form class="comment-form" data-publication-id="{{ publication.id }}" action="" method="post">
+                <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
+                <input type="hidden" name="publicationId" value="{{ publication.id }}">
+                <button type="submit">Commenter</button>
+            </form>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}
