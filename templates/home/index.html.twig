@@ -73,7 +73,8 @@ document.querySelectorAll('.like-btn').forEach(button => {
     {% for publication in publications %}
         <div>
             <p>Posté par : {{ publication.userID.username |e }}</p>
-            <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}" style="width: 40px;">
+            <a href="{{ path('app_profil', {username: publication.userID.username}) }}">
+            <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}" style="width: 40px;"></a>
 
             <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
             <p>{{ publication.postType |e }}</p>
@@ -102,6 +103,8 @@ document.querySelectorAll('.like-btn').forEach(button => {
                 <button type="submit">Commenter</button>
             </form>
         </div>
+    {% else %}
+        <p>Cet utilisateur n'a pas encore publié de contenu.</p>
     {% endfor %}
 </div>
 {% endblock %}

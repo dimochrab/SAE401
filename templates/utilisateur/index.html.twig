@@ -4,6 +4,28 @@
 
 {% block body %}
     <h2>Profil de l’utilisateur</h2>
+    <p>Nombre de followers : {{ followersCount }}</p>
+<p>Nombre d'abonnements : {{ followingsCount }}</p>
+<h2>Abonnés</h2>
+<ul>
+    {% for follower in followers %}
+        <li>{{ follower.FollowerID.username }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Abonnements</h2>
+<ul>
+    {% for following in followings %}
+        <li>{{ following.UserID.username }}</li>
+    {% endfor %}
+</ul>
+
+{% if utilisateur.ecoScore is not null %}
+    <p>Votre éco-score est : {{ utilisateur.ecoScore }}</p>
+{% else %}
+    <p>Vous n'avez pas encore passé le questionnaire éco-score.</p>
+    <a href="{{ path('eco_questionnaire') }}">Passer le questionnaire éco-score</a>
+{% endif %}
     <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
     <p>Bio: {{ utilisateur.Bio }}</p>
     <p>Email: {{ utilisateur.email }}</p>
