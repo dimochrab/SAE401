@@ -46,24 +46,6 @@
                     </div>
                 </div>
                 
-                <div class="input-div one">
-                    <div class="i">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <div class="div">
-                        {{ form_row(registrationForm.Profile_picture, {'attr': {'class': 'input', 'placeholder': 'Profile Picture URL'}}) }}
-                    </div>
-                </div>
-                
-                <div class="input-div one">
-                    <div class="i">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <div class="div">
-                        {{ form_row(registrationForm.Profile_cover, {'attr': {'class': 'input', 'placeholder': 'Profile Cover URL'}}) }}
-                    </div>
-                </div>
-                
                 <div class="input-div pass">
                     <div class="i">
                         <i class="fas fa-lock"></i>
@@ -73,16 +55,8 @@
                     </div>
                 </div>
                 
-                <div class="input-div one">
-                    <div class="i">
-                        <input type="checkbox" class="input" name="RGPDConsent" id="RGPDConsent" />
-                    </div>
-                    <div class="div">
-                        <label for="RGPDConsent">I agree to the Terms and Privacy Policy</label>
-                    </div>
-                </div>
-                
                 <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                <a href="{{ path('app_login') }}" class="btn" value="Login">Login</a>
                 
                 {{ form_end(registrationForm) }}
             </form>

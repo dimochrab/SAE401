@@ -31,18 +31,6 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Username'
             ])
-            ->add('Profile_picture', TextType::class,[
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Profile picture'
-            ])
-            ->add('Profile_cover', TextType::class,[
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Banner image'
-            ])
             ->add('RGPDConsent', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

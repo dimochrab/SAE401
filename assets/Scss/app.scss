@@ -184,6 +184,8 @@ $primary-color: #38d39f;
             @extend .btn-base;
             background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
             background-size: 200%;
+            align-content: center;
+            text-align: center;
 
             &:hover {
                 background-position: right;
