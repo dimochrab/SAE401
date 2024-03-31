@@ -2,7 +2,15 @@
 
 {% block title %}Accueil{% endblock %}
 
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/Scss/app.scss') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+
 {% block javascripts %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.comment-form').forEach(form => {
@@ -32,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-document.querySelectorAll('.like-btn').forEach(button => {
+document.querySelectorAll('.like-icon').forEach(button => {
     button.addEventListener('click', function(e) {
         const publicationId = this.dataset.publicationId;
         fetch(`/like/publication/${publicationId}`, {
@@ -55,48 +63,57 @@ document.querySelectorAll('.like-btn').forEach(button => {
                     this.textContent = 'Like';
                 }
             } else {
-                alert('Une erreur est survenue.');
+                alert('Vous avez liké un post.');
             }
         })
         .catch(error => console.error('Erreur:', error));
     });
 });
-
-
+document.addEventListener('DOMContentLoaded', function() {
+        const likeIcon = document.querySelector('.like-icon');
+        
+        likeIcon.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
 });
 </script>
 {% endblock %}
-
 {% block body %}
 <h2>Publications</h2>
-<div>
+<div class="publications">
     {% for publication in publications %}
-        <div>
-            <p>Posté par : {{ publication.userID.username |e }}</p>
-            <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}" style="width: 40px;">
-
-            <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ publication.postType |e }}</p>
-
-            {% if publication.fileType == 'image' %}
-                <img src="{{ asset('uploads/' ~ publication.postContent) }}" alt="Publication">
-            {% elseif publication.fileType == 'video' %}
-                <video controls src="{{ asset('uploads/' ~ publication.postContent) }}"></video>
-            {% endif %}
-            <p>{{ publication.likesCount }} likes</p>
-            <button data-publication-id="{{ publication.id }}" class="like-btn">J'aime</button>
-
-            <div>
+        <div class="publication" id="publication-{{ publication.id }}">
+            <div class="publication__header">
+                <div class="publication__author">
+                    <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}">
+                    <p>{{ publication.userID.username |e }}</p>
+                </div>
+                <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
+            </div>
+            <div class="publication__content">
+                {% if publication.fileType == 'image' %}
+                    <img src="{{ asset('uploads/' ~ publication.postContent) }}" alt="Publication">
+                {% elseif publication.fileType == 'video' %}
+                    <video controls src="{{ asset('uploads/' ~ publication.postContent) }}"></video>
+                {% endif %}
+            </div>
+            <div class="publication__likes">
+                <div class='large-font text-center top-20'>
+                    <i class="fas fa-heart like-icon" data-publication-id="{{ publication.id }}"></i>
+                </div>
+                <p>{{ publication.likesCount }} likes</p>
+            </div>
+            <div class="publication__comments">
                 {% for commentaire in publication.commentaires %}
-                    <p>
-                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username |e }}" style="width: 25px;">
-                        {{ commentaire.userID.username |e }}: {{ commentaire.content |e }}
-                        <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
-                    </p>
+                    <div class="comment">
+                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username |e }}">
+                        <p><strong>{{ commentaire.userID.username |e }}</strong>: {{ commentaire.content |e }}</p>
+                        <p class="comment__date">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
+                    </div>
                 {% endfor %}
             </div>
-
-            <form class="comment-form" data-publication-id="{{ publication.id }}" action="" method="post">
+            <form class="comment-form" id="comment-form-{{ publication.id }}" action="" method="post">
                 <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
                 <input type="hidden" name="publicationId" value="{{ publication.id }}">
                 <button type="submit">Commenter</button>
@@ -104,4 +121,6 @@ document.querySelectorAll('.like-btn').forEach(button => {
         </div>
     {% endfor %}
 </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 {% endblock %}

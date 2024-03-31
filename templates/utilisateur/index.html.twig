@@ -15,26 +15,28 @@
         <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
         <p>Bio: {{ utilisateur.Bio }}</p>
         <p>Email: {{ utilisateur.email }}</p>
-    </div><h2>Publications</h2>
-<div>
-    {% for publication in publications %}
-        <div>
-            <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ publication.postType }}</p>
+    
+    <h2>Publications</h2>
+    <div class="publication-mosaic">
+        {% for publication in publications %}
+            <div class="publication">
+                <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
+                <p>{{ publication.postType }}</p>
 
-            {% if publication.fileType == 'image' %}
-
-                <img src="{{ asset('/uploads/' ~ publication.postContent) }}" alt="Image de publication">
-
-            {% elseif publication.fileType == 'video' %}
-                <video controls src="{{ asset('/uploads/' ~ publication.postContent) }}"></video>
-            {% endif %}
-             <a href="{{ path('publication_edit', {'id': publication.id}) }}" class="btn btn-primary">Modifier</a>
-             <a href="{{ path('publication_delete', {'id': publication.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">Supprimer</a>
-        </div>
-    {% else %}
-        <p>Aucune publication à afficher.</p>
-    {% endfor %}
+                {% if publication.fileType == 'image' %}
+                    <img src="{{ asset('/uploads/' ~ publication.postContent) }}" alt="Image de publication">
+                {% elseif publication.fileType == 'video' %}
+                    <video controls src="{{ asset('/uploads/' ~ publication.postContent) }}"></video>
+                {% endif %}
+                <div class="publication-buttons">
+                    <a href="{{ path('publication_edit', {'id': publication.id}) }}" class="btn btn-primary">Modifier</a>
+                    <a href="{{ path('publication_delete', {'id': publication.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">Supprimer</a>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucune publication à afficher.</p>
+        {% endfor %}
+    </div>
 </div>
 
 <div class="suggestions">
