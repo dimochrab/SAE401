@@ -86,8 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="publication" id="publication-{{ publication.id }}">
             <div class="publication__header">
                 <div class="publication__author">
-                    <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}">
-                    <p>{{ publication.userID.username |e }}</p>
+                    <a href="{{ path('app_profil', {username: publication.userID.username}) }}">
+                    <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}" style="width: 40px;"></a>
+                <p>{{ publication.userID.username |e }}</p>
                 </div>
                 <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
             </div>
@@ -119,6 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button type="submit">Commenter</button>
             </form>
         </div>
+    {% else %}
+        <p>Cet utilisateur n'a pas encore publié de contenu.</p>
     {% endfor %}
 </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

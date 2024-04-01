@@ -50,6 +50,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Bio = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $EcoScore = null;
+    
     public function __construct()
     {
         $this->connexions = new ArrayCollection();
@@ -254,6 +257,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBio(?string $Bio): static
     {
         $this->Bio = $Bio;
+
+        return $this;
+    }
+
+    public function getEcoScore(): ?int
+    {
+        return $this->EcoScore;
+    }
+
+    public function setEcoScore(?int $EcoScore): static
+    {
+        $this->EcoScore = $EcoScore;
 
         return $this;
     }
