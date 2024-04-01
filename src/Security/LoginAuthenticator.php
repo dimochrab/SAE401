@@ -18,7 +18,6 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use App\Entity\Utilisateur;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 
 
@@ -46,7 +45,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $user = $this->getUserByEmail($email);
 
         if (!$user || !$this->passwordEncoder->isPasswordValid($user, $request->request->get('password'))) {
-            throw new AuthenticationException('Invalid credentials');
+            throw new CustomAuthenticationException('Invalid credentials');
         }
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);

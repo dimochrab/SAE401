@@ -1,9 +1,11 @@
 body {
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+    overflow: auto;
+    margin: 0;
 }
 
-// Définition de la classe de base pour les boutons
+$primary-color: #38d39f;
+
 .btn-base {
     display: block;
     width: 100%;
@@ -18,6 +20,10 @@ body {
     margin: 1rem 0;
     cursor: pointer;
     transition: .5s;
+
+    &:hover {
+        background-position: right;
+    }
 }
 
 .wave {
@@ -34,7 +40,6 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 7rem;
-    padding: 0 2rem;
 
     .img {
         display: flex;
@@ -46,9 +51,11 @@ body {
         }
     }
 
+
     .login-content {
         display: flex;
-        justify-content: flex-start;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
         text-align: center;
 
@@ -62,14 +69,15 @@ body {
 
         img {
             width: 250px;
+            height: auto;
             margin-bottom: 2rem;
         }
 
         h2 {
-            margin: 15px 0;
-            color: #333;
+            margin: 0 0 45px 0;
+            color: #349d22;
             text-transform: uppercase;
-            font-size: 2.9rem;
+            font-size: 1.5rem;
         }
 
         .input-div {
@@ -178,18 +186,18 @@ body {
             }
         }
 
-                // Style du bouton par défaut
         .btn {
             @extend .btn-base;
             background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
             background-size: 200%;
+            align-content: center;
+            text-align: center;
 
             &:hover {
                 background-position: right;
             }
         }
 
-        // Style d'un autre type de bouton
         .btn-secondary {
             @extend .btn-base;
             background-color: #555;
@@ -201,6 +209,313 @@ body {
         }
     }
 }
+
+.logged-in-nav, .logged-out-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    background-color: #ebebeb;
+    color: $primary-color;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    display: inline-block;
+    margin-left: 20px;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+        font-weight: bold;
+        font-size: 16px;
+        transition: color 0.3s;
+
+        &:hover {
+            color: #497a69;
+        }
+    }
+}
+
+.logo {
+    margin-right: auto;
+
+    img {
+        width: 120px;
+    }
+}
+
+
+// page profil
+.profil {
+    display: inline-block; /* Modifier pour inline-block */
+    vertical-align: top;
+    text-align: center;
+    margin-left: 7%;
+    width: 60%;
+    background-color: rgb(230, 230, 230);
+
+    .imgprofil {
+        width: 100%;
+        height: 50vh;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+  
+                .cover {
+                width: 100%;
+                height: 50vh;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                }
+            
+                .profil-cov {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                position: absolute;
+                bottom: 40%;
+                left: 50%;
+                transform: translateX(-50%);
+                border: 5px solid #fff;
+                }
+            }
+  
+    h2 {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+  
+    p {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  
+    a {
+      display: block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007bff;
+      font-size: 18px;
+    }
+    .publication-mosaic {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    
+        .publication {
+          width: 200px;
+          text-align: center;
+    
+          img,
+          video {
+            max-width: 100%;
+            height: auto;
+          }
+    
+          .publication-buttons {
+            margin-top: 10px;
+          }
+        }
+    }
+}
+
+  .suggestions {
+    display: inline-block; 
+    vertical-align: top;
+    background-color: rgb(230, 230, 230);
+    padding: 20px;
+    width: 20%;
+    margin-left: 5%;
+}
+
+.suggestions-bar {
+    width: 5px;
+    height: 50px;
+    background-color: #000;
+    margin-bottom: 20px;
+}
+
+.suggestion {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+// page home (feed)
+.publications {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.publication {
+    width: 600px; // Ajuster la largeur selon vos besoins
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+
+    .publication__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .publication__author {
+        display: flex;
+        align-items: center;
+    }
+
+    .publication__author img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .publication__content {
+        margin-bottom: 10px;
+
+        img, video {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .publication__likes {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        i {
+            margin-right: 5px;
+            cursor: pointer;
+            width: 50px;
+        }
+
+        .like-icon.active {
+            color: $primary-color;
+            transition: color 0.5s;
+          }
+    }
+
+    .publication__comments {
+        .comment {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+
+            img {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                margin-right: 5px;
+            }
+
+            .comment__date {
+                font-size: 12px;
+                color: #777;
+                margin-left: auto;
+            }
+        }
+    }
+
+    .comment-form {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        button {
+            flex-shrink: 0;
+        }
+    }
+}
+
+// popup pour publier un post
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    border-radius: 10px;
+
+    .popup-content {
+        text-align: center;
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+
+            .form-control {
+                width: 80%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .form-control-file {
+                border: none;
+                background-color: $primary-color; 
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease; 
+            }
+        
+            .form-control-file:hover {
+                background-color: darken($primary-color, 10%); 
+            }
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: $primary-color;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
+        }
+
+
+    }
+}
+
 
 @media screen and (max-width: 1050px) {
     .container {

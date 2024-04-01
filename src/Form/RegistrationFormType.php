@@ -23,25 +23,13 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'E-mail'
+                'label' => false,
             ])
             ->add('Username', TextType::class,[
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Username'
-            ])
-            ->add('Profile_picture', TextType::class,[
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Profile picture'
-            ])
-            ->add('Profile_cover', TextType::class,[
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Banner image'
+                'label' => false,
             ])
             ->add('RGPDConsent', CheckboxType::class, [
                 'mapped' => false,
@@ -60,6 +48,7 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
+                'label' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -71,7 +60,6 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'label' => 'Password'
             ])
         ;
     }
