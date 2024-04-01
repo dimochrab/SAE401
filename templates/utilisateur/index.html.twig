@@ -5,45 +5,23 @@
 {% endblock %}
 
 {% block body %}
-    <p>Nombre de followers : {{ followersCount }}</p>
-<p>Nombre d'abonnements : {{ followingsCount }}</p>
-<h2>Abonnés</h2>
-<ul>
-    {% for follower in followers %}
-        <li>{{ follower.FollowerID.username }}</li>
-    {% endfor %}
-</ul>
-
-<h2>Abonnements</h2>
-<ul>
-    {% for following in followings %}
-        <li>{{ following.UserID.username }}</li>
-    {% endfor %}
-</ul>
-
-{% if utilisateur.ecoScore is not null %}
-    <p>Votre éco-score est : {{ utilisateur.ecoScore }}</p>
-{% else %}
-    <p>Vous n'avez pas encore passé le questionnaire éco-score.</p>
-    <a href="{{ path('eco_questionnaire') }}">Passer le questionnaire éco-score</a>
-{% endif %}
-    <h2>Profil de l’utilisateur</h2>
-    <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
-    <p>Bio: {{ utilisateur.Bio }}</p>
-    <p>Email: {{ utilisateur.email }}</p>
-
-        <img src="{{ asset('/uploads/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
-        <img src="{{ asset('/uploads/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
-
-
-         <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
-
-<h2>Publications</h2>
-<div>
-    {% for publication in publications %}
-        <div>
-            <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ publication.postType }}</p>
+<div class="profil">
+        <div class="imgprofil">
+            <img class="profil-cov" src="{{ asset('img/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
+            <img class="cover" src="{{ asset('img/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
+        </div>
+        <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
+        <h2>Profil de l’utilisateur</h2>
+        <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+        <p>Bio: {{ utilisateur.Bio }}</p>
+        <p>Email: {{ utilisateur.email }}</p>
+    
+    <h2>Publications</h2>
+    <div class="publication-mosaic">
+        {% for publication in publications %}
+            <div class="publication">
+                <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
+                <p>{{ publication.postType }}</p>
 
                 {% if publication.fileType == 'image' %}
                     <img src="{{ asset('/uploads/' ~ publication.postContent) }}" alt="Image de publication">
