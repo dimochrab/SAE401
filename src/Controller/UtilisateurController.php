@@ -11,19 +11,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\SecurityBundle\Security;
+use App\Repository\FollowRepository; // Importez FollowRepository
 
 class UtilisateurController extends AbstractController
 {
     #[Route('/utilisateur', name: 'app_utilisateur')]
-    public function profil(PublicationRepository $publicationRepository): Response // Injectez le PublicationRepository
+    public function profil(PublicationRepository $publicationRepository, Security $security, FollowRepository $followRepository): Response
     {
-        $utilisateur = $this->getUser();
+        $utilisateur = $security->getUser();
         
         if (!$utilisateur) {
             return $this->redirectToRoute('app_login');
         }
-        
-        // Récupérez les publications de l'utilisateur
+
         $publications = $publicationRepository->findBy(['UserID' => $utilisateur->getId()], ['DateTime' => 'DESC']);
         
         foreach ($publications as $publication) {
@@ -37,10 +38,20 @@ class UtilisateurController extends AbstractController
                 $publication->fileType = 'unknown';
             }
         }
+
+        $followersCount = $followRepository->countFollowersOfUser($utilisateur);
+        $followingsCount = $followRepository->countFollowingsOfUser($utilisateur);
+        $followers = $followRepository->findFollowersOfUser($utilisateur);
+        $followings = $followRepository->findFollowingsOfUser($utilisateur);
+
         return $this->render('utilisateur/index.html.twig', [
             'utilisateur' => $utilisateur,
-            'publications' => $publications, // Passez les publications au template
+            'publications' => $publications,
+            'followersCount' => $followersCount,
+            'followingsCount' => $followingsCount,
+            'followers' => $followers,
+            'followings' => $followings,
         ]);
     }
-    
 }
+
