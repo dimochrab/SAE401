@@ -8,10 +8,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\PublicationRepository;
 use App\Repository\UtilisateurRepository;
+use App\Repository\LikeRepository;
 
 
 class SearchController extends AbstractController
 {
+    private LikeRepository $likeRepository;
+
+    public function __construct( LikeRepository $likeRepository)
+    {
+        $this->likeRepository = $likeRepository;
+    }
     #[Route('/search', name: 'app_search')]
     public function search(Request $request, PublicationRepository $publicationRepo, UtilisateurRepository $userRepo)
     {
@@ -24,21 +31,36 @@ class SearchController extends AbstractController
             $publications = [];
             $users = [];
         }
-        
+        $user = $this->getUser();
+
+        $publicationsData = [];
+
         foreach ($publications as $publication) {
+            $publicationId = $publication->getId();
+            $isLikedByCurrentUser = $this->likeRepository->isLikedByUser($publicationId, $user);
+            $likesCount = $this->likeRepository->countLikesForPublication($publicationId);
+            $likers = $this->likeRepository->findLikersByPublication($publicationId); // Assurez-vous d'implémenter cette méthode
+
             $filename = $publication->getPostContent();
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $fileType = 'unknown';
             if (in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif'])) {
-                $publication->fileType = 'image';
+                $fileType = 'image';
             } elseif (in_array(strtolower($extension), ['mp4', 'avi', 'mov'])) {
-                $publication->fileType = 'video';
-            } else {
-                $publication->fileType = 'unknown';
+                $fileType = 'video';
             }
+
+            $publicationsData[] = [
+                'publication' => $publication,
+                'isLikedByCurrentUser' => $isLikedByCurrentUser,
+                'likesCount' => $likesCount,
+                'fileType' => $fileType,
+                'likers' => $likers, // Liste des utilisateurs qui ont liké
+            ];
         }
 
         return $this->render('search/index.html.twig', [
-            'publications' => $publications,
+            'publicationsData' => $publicationsData,
             'users' => $users,
             'query' => $query
         ]);

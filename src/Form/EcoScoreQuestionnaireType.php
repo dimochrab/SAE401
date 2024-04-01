@@ -18,10 +18,10 @@ class EcoScoreQuestionnaireType extends AbstractType
             ->add('question1', ChoiceType::class, [
                 'label' => 'Combien de repas contenant de la viande consommez-vous par semaine ?',
                 'choices' => [
-                    'Rarement ou jamais' => 0,
-                    '1 à 3 fois' => 1,
-                    '4 à 6 fois' => 2,
-                    'Plus de 6 fois' => 3,
+                    'Rarement ou jamais' => 3,
+                    '1 à 3 fois' => 2,
+                    '4 à 6 fois' => 1,
+                    'Plus de 6 fois' => 0,
                 ],
                 'expanded' => true,
 
@@ -38,23 +38,12 @@ class EcoScoreQuestionnaireType extends AbstractType
                 'expanded' => true,
             ])
             ->add('question3', ChoiceType::class, [
-                'label' => 'Combien de repas contenant de la viande consommez-vous par semaine ?
-                ',
+                'label' => 'Quelle quantité de déchets alimentaires jetez-vous par semaine ?',
                 'choices' => [
-                    'Rarement ou jamais' => 0,
-                    '1 à 3 fois' => 2,
-                    '4 à 6 fois' => 2,
-                    'Plus de 6 fois' => 3,
-                ],
-                'expanded' => true,
-            ])
-            ->add('question4', ChoiceType::class, [
-                'label' => 'Achetez-vous des produits locaux ou issus de l\'agriculture biologique ?',
-                'choices' => [
-                    'Toujours' => 3,
-                    'Souvent' => 2,
-                    'Parfois' => 1,
-                    'Jamais' => 0,
+                    'Aucun' => 3,
+                    'Moins de 1 kg' => 2,
+                    '1 à 2 kg' => 1,
+                    'Plus de 2 kg' => 0,
                 ],
                 'expanded' => true,
             ])
@@ -131,10 +120,10 @@ class EcoScoreQuestionnaireType extends AbstractType
             ->add('question12', ChoiceType::class, [
                 'label' => 'Combien de fois par mois utilisez-vous des produits jetables (vaisselle, couverts, etc.) ?',
                 'choices' => [
-                    'Jamais' => 3,
-                    'Moins de 3 fois' => 2,
-                    '4 à 6 fois' => 1,
-                    'Plus de 6 fois' => 0,
+                    'Jamais' => 0,
+                    'Moins de 3 fois' => 1,
+                    '4 à 6 fois' => 2,
+                    'Plus de 6 fois' => 3,
                 ],
                 'expanded' => true,
             ])
