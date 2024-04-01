@@ -29,7 +29,17 @@ class PublicationRepository extends ServiceEntityRepository
             ->getResult();
     }
     
+    public function countPublicationsByUser($userId)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->where('p.UserID = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     
+
     
 
     //    /**

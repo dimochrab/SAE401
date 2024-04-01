@@ -43,6 +43,8 @@ class UtilisateurController extends AbstractController
         $followingsCount = $followRepository->countFollowingsOfUser($utilisateur);
         $followers = $followRepository->findFollowersOfUser($utilisateur);
         $followings = $followRepository->findFollowingsOfUser($utilisateur);
+        $nombrePublications = $publicationRepository->countPublicationsByUser($utilisateur->getId());
+
 
         return $this->render('utilisateur/index.html.twig', [
             'utilisateur' => $utilisateur,
@@ -51,6 +53,7 @@ class UtilisateurController extends AbstractController
             'followingsCount' => $followingsCount,
             'followers' => $followers,
             'followings' => $followings,
+            'nombrePublications' => $nombrePublications,
         ]);
     }
 }

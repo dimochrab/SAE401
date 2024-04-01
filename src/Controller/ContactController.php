@@ -1,6 +1,7 @@
 <?php
 
 // src/Controller/ContactController.php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,22 +22,25 @@ class ContactController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contactFormData = $form->getData();
-            $user = $this->getUser(); // Récupère l'utilisateur connecté
-            $emailUser = $user ? $user->getEmail() : 'fallbackemail@example.com'; // Utilisez un e-mail par défaut si nécessaire
 
             $email = (new Email())
-                ->from($emailUser)
-                ->to('admin@example.com') // Remplacez par votre e-mail réel pour la production
+                ->from($contactFormData['email'])
+                ->to('adem.ben-khedher@etudiant.univ-reims.fr')
                 ->subject('Message du formulaire de contact')
-                ->text('Envoyé par : '.$emailUser."\n\n".$contactFormData['message'])
-                ->html('<p>Envoyé par : '.$emailUser.'</p><p>'.$contactFormData['message'].'</p>');
+                ->text("Envoyé par : ".$contactFormData['email']."\n\nMessage : ".$contactFormData['message']);
 
             $mailer->send($email);
 
+
             $this->addFlash('success', 'Votre message a été envoyé.');
 
-            return $this->redirectToRoute('app_contact');
+            // Gardez l'utilisateur sur la même page
+            return $this->render('contact/index.html.twig', [
+                'contact_form' => $form->createView(),
+                'message_sent' => true, // Vous pouvez utiliser cette variable pour afficher un message de confirmation dans votre vue.
+            ]);
         }
+    
 
         return $this->render('contact/index.html.twig', [
             'contact_form' => $form->createView(),
