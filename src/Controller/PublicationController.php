@@ -17,6 +17,8 @@ class PublicationController extends AbstractController
     {
         $publication = new Publication();
         $form = $this->createForm(PublicationType::class, $publication);
+        $publication = new Publication();
+        $form = $this->createForm(PublicationType::class, $publication);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,10 +53,29 @@ class PublicationController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Publication ajoutée avec succès.');
+            $this->addFlash('success', 'Publication ajoutée avec succès.');
             return $this->redirectToRoute('app_publication');
         }
 
+
         return $this->render('publication/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/publication/edit/{id}', name: 'publication_edit')]
+    public function edit(Request $request, Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(PublicationType::class, $publication);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Publication modifiée avec succès.');
+
+            return $this->redirectToRoute('app_utilisateur');
+        }
+
+        return $this->render('publication/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

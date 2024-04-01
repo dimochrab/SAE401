@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
 class Publication
 {
@@ -29,6 +30,7 @@ class Publication
     private ?Utilisateur $UserID = null;
 
 
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'PostID', cascade: ["remove"])]
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'PostID', cascade: ["remove"])]
     private Collection $commentaires;
 
