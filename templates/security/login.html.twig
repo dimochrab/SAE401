@@ -21,6 +21,7 @@
                 {% endif %}
 
                 <img src="{{ asset('img/logoconnect.png') }}">
+                <h2>Se connecter</h2>
                 <div class="input-div one">
                     <div class="i">
                         <i class="fas fa-user"></i>
@@ -41,9 +42,8 @@
                 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 <input type="submit" class="btn" value="Login">
-                <a href="{{ path('app_register') }}" class="btn" value="Register">Register</a>   
+                <a href="{{ path('app_register') }}">Don't have any account ?</a>
             </form>
-
         </div>
     </div>
 {% endblock %}
