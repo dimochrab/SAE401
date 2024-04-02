@@ -34,9 +34,9 @@ class UtilisateurCrudController extends AbstractCrudController
                 ->HideOnForm(),
             TextField::new('Username'),
             TextField::new('Email')
-                ->SetFORMtypeoption('disabled', 'disabled'),
+                ,
             TextEditorField::new('Password')
-                ->HideOnForm(),
+                ->HideOnform(),
             TextField::new('ProfilePicture'),
             TextField::new('ProfileCover'),
             ArrayField::new('roles'),

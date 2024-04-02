@@ -25,6 +25,10 @@
                 <li><a href="{{path('app_publication')}}">Publier</a></li>
                 <li><a href="{{path('app_utilisateur')}}">Profile</a></li>
                 <li><a href="{{path('app_home')}}">Home</a></li>
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <!-- Lien vers l'administration -->
+                    <li><a href="{{ path('admin') }}">Administration</a></li>
+                {% endif %}
                 <li><a href="{{path('app_logout')}}">Déconnexion</a></li>
             </ul>
 
