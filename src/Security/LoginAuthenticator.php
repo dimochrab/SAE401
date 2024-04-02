@@ -17,6 +17,8 @@ use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use App\Entity\Utilisateur;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\CustomAuthenticationException;
+
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
