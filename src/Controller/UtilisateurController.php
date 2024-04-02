@@ -56,4 +56,5 @@ class UtilisateurController extends AbstractController
             'nombrePublications' => $nombrePublications,
         ]);
     }
+    
 }

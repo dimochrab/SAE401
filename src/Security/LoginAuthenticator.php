@@ -3,6 +3,7 @@ namespace App\Security;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -26,6 +27,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class LoginAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
+    public const LOGIN_ROUTE = 'app_login'; // Déclaration de la constante LOGIN_ROUTE
+
+
+    private EntityManagerInterface $entityManager;
+    private UserPasswordHasherInterface $passwordEncoder;
     public const LOGIN_ROUTE = 'app_login'; // Déclaration de la constante LOGIN_ROUTE
 
 
