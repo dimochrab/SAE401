@@ -23,7 +23,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('EcoConnect -Administration')
+            ->setTitle('<img src="img/logoconnect.png" alt="Logo"style=" width: 40px; height: auto;" /> -Administration')
             ->renderContentMaximized();
 
     }

@@ -22,7 +22,8 @@ class UtilisateurCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Utilisateur')
             ->setEntityLabelInPlural('Utilisateurs')
-            ->setPageTitle('index','EcoConnect - Administration des utilisateurs')
+            ->setPageTitle('index','<img src="img/logoconnect.png" alt="Logo" /> - Administration des utilisateurs')
+
             ->setPaginatorPageSize(10);
 
     }
