@@ -20,18 +20,17 @@
         <header>
     {% if app.user %}
         {# Si l'utilisateur est connecté, affichez cette navbar #}
-        <nav class="logged-in-nav">
-            <div class="logo">
-                <a href="{{ path('app_utilisateur') }}">
-                    <img src="{{ asset('img/logoconnect.png') }}">
-                </a>
-            </div>
-            <ul class="nav-links">
-                <li class="nav-item"><a href="{{ path('app_publication') }}"><i class="material-icons">add_circle</i></a></li>
-                <li class="nav-item"><a href="{{ path('app_utilisateur') }}"><i class="material-icons">person</i></a></li>
-                <li class="nav-item"><a href="{{ path('app_home') }}"><i class="material-icons">home</i></a></li>
-                <li class="nav-item"><a href="{{ path('app_contact') }}"><i class="material-icons">message</i></a></li>
-                <li class="nav-item"><a href="{{ path('app_logout') }}"><i class="material-icons">exit_to_app</i></a></li>
+        <nav>
+            <ul>
+                <li><a href="{{path('app_modify_profile')}}">Modifier</a></li>
+                <li><a href="{{path('app_publication')}}">Publier</a></li>
+                <li><a href="{{path('app_utilisateur')}}">Profile</a></li>
+                <li><a href="{{path('app_home')}}">Home</a></li>
+                                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <!-- Lien vers l'administration -->
+                    <li><a href="{{ path('admin') }}">Administration</a></li>
+                {% endif %}
+                <li><a href="{{path('app_logout')}}">Déconnexion</a></li>
             </ul>
                 <form action="{{ path('app_search') }}" method="get">
                     <input type="text" name="query" placeholder="Rechercher des posts ou des profils...">
