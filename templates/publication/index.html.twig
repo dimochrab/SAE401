@@ -1,20 +1,16 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Publication{% endblock %}
+=======
+{% block title %}Hello PublicationController!{% endblock %}
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
 
 {% block body %}
-    <div class="popup">
-        <div class="popup-content">
-            <h1>Publier un Post</h1>
-            {{ form_start(form, {'attr': {'class': 'publication-form'}}) }}
-                <div class="form-group">
-                    {{ form_row(form.post_type, {'attr': {'class': 'form-control', 'placeholder': 'Exprimez-vous...'}}) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(form.file, {'attr': {'class': 'form-control-file'}}) }}
-                </div>
-                <button type="submit" class="btn btn-primary">Publier</button>
-            {{ form_end(form) }}
-        </div>
-    </div>
+    <h1>Formulaire</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {{ form_end(form) }}
 {% endblock %}

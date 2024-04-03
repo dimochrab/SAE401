@@ -22,7 +22,8 @@ class Publication
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $DateTime = null;
 
-
+    #[ORM\Column(nullable: true)]
+    private ?int $LikesCount = null;
 
     #[ORM\ManyToOne(inversedBy: 'publications')]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,13 +39,9 @@ class Publication
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Post_content = null;
 
-    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'publication')]
-    private Collection $likes;
-
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
-        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +73,17 @@ class Publication
         return $this;
     }
 
+    public function getLikesCount(): ?int
+    {
+        return $this->LikesCount;
+    }
+
+    public function setLikesCount(?int $LikesCount): static
+    {
+        $this->LikesCount = $LikesCount;
+
+        return $this;
+    }
 
     public function getUserID(): ?Utilisateur
     {
@@ -140,36 +148,6 @@ class Publication
     public function setPostContent(?string $Post_content): static
     {
         $this->Post_content = $Post_content;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Like>
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(Like $like): static
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
-            $like->setPublication($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(Like $like): static
-    {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getPublication() === $this) {
-                $like->setPublication(null);
-            }
-        }
 
         return $this;
     }

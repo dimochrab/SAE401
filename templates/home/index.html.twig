@@ -1,16 +1,21 @@
 {% extends 'base.html.twig' %}
+<<<<<<< HEAD
 
 {% block title %}Accueil{% endblock %}
 
 
+=======
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('/Scss/app.scss') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
 {% block javascripts %}
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.comment-form').forEach(form => {
@@ -48,7 +53,11 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.textContent = 'Envoi en cours...';
     });
 
+<<<<<<< HEAD
 document.querySelectorAll('.like-icon').forEach(btn => {
+=======
+document.querySelectorAll('.like-btn').forEach(btn => {
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
     btn.addEventListener('click', function() {
         const publicationId = this.getAttribute('data-publication-id');
         const liked = this.getAttribute('data-liked') === 'true';
@@ -79,9 +88,11 @@ console.log(data.message);
 
 </script>
 {% endblock %}
+
 {% block body %}
 <h2>Publications</h2>
 <div class="publications">
+<<<<<<< HEAD
     {% for data in publicationsData %}
         <div class="publication__header">
                 <div class="publication__author">
@@ -130,6 +141,36 @@ $            <div class="publication__content">
                         <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username | escape }}" style="width: 25px;">
                         <p><strong>{{ commentaire.userID.username | escape }}</strong> : {{ commentaire.content | escape }}
                         <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
+=======
+    {% for publication in publications %}
+        <div class="publication" id="publication-{{ publication.id }}">
+            <div class="publication__header">
+                <div class="publication__author">
+                    <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}">
+                    <p>{{ publication.userID.username |e }}</p>
+                </div>
+                <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
+            </div>
+            <div class="publication__content">
+                {% if publication.fileType == 'image' %}
+                    <img src="{{ asset('uploads/' ~ publication.postContent) }}" alt="Publication">
+                {% elseif publication.fileType == 'video' %}
+                    <video controls src="{{ asset('uploads/' ~ publication.postContent) }}"></video>
+                {% endif %}
+            </div>
+            <div class="publication__likes">
+                <div class='large-font text-center top-20'>
+                    <i class="fas fa-heart like-icon" data-publication-id="{{ publication.id }}"></i>
+                </div>
+                <p>{{ publication.likesCount }} likes</p>
+            </div>
+            <div class="publication__comments">
+                {% for commentaire in publication.commentaires %}
+                    <div class="comment">
+                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username |e }}">
+                        <p><strong>{{ commentaire.userID.username |e }}</strong>: {{ commentaire.content |e }}</p>
+                        <p class="comment__date">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
                     </div>
                 {% endfor %}
             </div>
@@ -140,10 +181,13 @@ $            <div class="publication__content">
                 <button type="submit">Commenter</button>
             </form>
         </div>
-    {% else %}
-        <p>Cet utilisateur n'a pas encore publié de contenu.</p>
     {% endfor %}
 </div>
+<<<<<<< HEAD
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 {% endblock %}
+=======
+{% endblock %}
+
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f

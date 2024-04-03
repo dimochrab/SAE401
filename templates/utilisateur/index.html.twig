@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
+<<<<<<< HEAD
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
 {% endblock %}
+=======
+
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
 {% block javascripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -73,15 +77,24 @@ document.querySelectorAll('.like-btn').forEach(button => {
 });
 </script>
 {% endblock %}
+<<<<<<< HEAD
 
 {% block title %}Profil de l’utilisateur{% endblock %}
 {% block body %}
     <div class="profil">
+=======
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
+{% endblock %}
+{% block body %}
+<div class="profil">
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
         <div class="imgprofil">
             <img class="profil-cov" src="{{ asset('img/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
             <img class="cover" src="{{ asset('img/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
         </div>
         <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
+<<<<<<< HEAD
         <p>Nombre de publications publiées : {{ nombrePublications }}</p>
     <p>Nombre de followers : {{ followersCount }}</p>
 <p>Nombre d'abonnements : {{ followingsCount }}</p>
@@ -118,6 +131,15 @@ document.querySelectorAll('.like-btn').forEach(button => {
 
 <h2>Publications</h2>
 <div class="publication-mosaic">
+=======
+        <h2>Profil de l’utilisateur</h2>
+        <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+        <p>Bio: {{ utilisateur.Bio }}</p>
+        <p>Email: {{ utilisateur.email }}</p>
+    
+    <h2>Publications</h2>
+    <div class="publication-mosaic">
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
         {% for publication in publications %}
             <div class="publication">
                 <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
@@ -154,8 +176,12 @@ document.querySelectorAll('.like-btn').forEach(button => {
     {% endfor %}
 </div>
 
+<<<<<<< HEAD
     {# Afficher d'autres informations de l'utilisateur comme vous le souhaitez #}
     <div class="suggestions">
+=======
+<div class="suggestions">
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
         <h3>Suggestions d'amis:</h3>
         {% for utilisateurs in utilisateur %}
             <div class="suggestion">
@@ -165,5 +191,9 @@ document.querySelectorAll('.like-btn').forEach(button => {
             </div>
         {% endfor %}
     </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
 {% endblock %}
 

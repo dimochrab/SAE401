@@ -17,6 +17,8 @@ class PublicationController extends AbstractController
     {
         $publication = new Publication();
         $form = $this->createForm(PublicationType::class, $publication);
+        $publication = new Publication();
+        $form = $this->createForm(PublicationType::class, $publication);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,8 +53,10 @@ class PublicationController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Publication ajoutée avec succès.');
+            $this->addFlash('success', 'Publication ajoutée avec succès.');
             return $this->redirectToRoute('app_publication');
         }
+
 
         return $this->render('publication/index.html.twig', [
             'form' => $form->createView(),
@@ -75,6 +79,7 @@ class PublicationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     #[Route('/publication/delete/{id}', name: 'publication_delete')]
     public function delete(Publication $publication, EntityManagerInterface $entityManager): Response
     {

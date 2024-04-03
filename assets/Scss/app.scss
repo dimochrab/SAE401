@@ -20,10 +20,6 @@ $primary-color: #38d39f;
     margin: 1rem 0;
     cursor: pointer;
     transition: .5s;
-
-    &:hover {
-        background-position: right;
-    }
 }
 
 .wave {
@@ -51,11 +47,9 @@ $primary-color: #38d39f;
         }
     }
 
-
     .login-content {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         text-align: center;
 
@@ -74,10 +68,10 @@ $primary-color: #38d39f;
         }
 
         h2 {
-            margin: 0 0 45px 0;
-            color: #349d22;
+            margin: 15px 0;
+            color: #333;
             text-transform: uppercase;
-            font-size: 1.5rem;
+            font-size: 2.9rem;
         }
 
         .input-div {
@@ -452,69 +446,6 @@ $primary-color: #38d39f;
     }
 }
 
-// popup pour publier un post
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 20px;
-    width: 400px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    border-radius: 10px;
-
-    .popup-content {
-        text-align: center;
-
-        h1 {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-
-            .form-control {
-                width: 80%;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            .form-control-file {
-                border: none;
-                background-color: $primary-color; 
-                color: white;
-                padding: 10px 20px;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s ease; 
-            }
-        
-            .form-control-file:hover {
-                background-color: darken($primary-color, 10%); 
-            }
-        }
-
-        .btn {
-            padding: 10px 20px;
-            background-color: $primary-color;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: darken($primary-color, 10%);
-            }
-        }
-
-
-    }
-}
 
 
 @media screen and (max-width: 1050px) {

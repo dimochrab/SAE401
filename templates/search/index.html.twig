@@ -73,6 +73,7 @@ document.querySelectorAll('.like-btn').forEach(button => {
 {% block body %}
     <h1>Résultats de recherche pour "{{ query }}"</h1>
 
+<<<<<<< HEAD
     <h2>Publications</h2>
 <div class="publications">
     {% for data in publicationsData %}
@@ -87,6 +88,19 @@ document.querySelectorAll('.like-btn').forEach(button => {
             <p>{{ data.publication.postType | escape  }}</p>
             </div>
             <div class="publication__content">
+=======
+<h2>Publications</h2>
+<div>
+    {% for data in publicationsData %}
+        <div>
+            <p>Posté par : {{ data.publication.userID.username | escape }}</p>
+            <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
+            <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
+
+            <p>{{ data.publication.dateTime|date('Y-m-d H:i') }}</p>
+            <p>{{ data.publication.postType | escape }}</p>
+
+>>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
             {% if data.fileType == 'image' %}
                 <img src="{{ asset('uploads/' ~ data.publication.postContent) }}" alt="Publication">
             {% elseif data.fileType == 'video' %}
