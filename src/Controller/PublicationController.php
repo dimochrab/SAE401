@@ -84,43 +84,6 @@ class PublicationController extends AbstractController
 
         return $this->redirectToRoute('app_utilisateur');
     }
-    #[Route('/like/publication/{id}', name: 'like_publication', methods: ['POST'])]
-    public function likePublication($id, Request $request, EntityManagerInterface $em): Response
-    {
-        $data = json_decode($request->getContent(), true);
-    
-        // Assurez-vous que le contenu décodé est un tableau.
-        if (!is_array($data)) {
-            return $this->json(['error' => 'Données invalides'], Response::HTTP_BAD_REQUEST);
-        }
-    
-        // Trouvez la publication.
-        $publication = $em->getRepository(Publication::class)->find($id);
-    
-        if (!$publication) {
-            return $this->json(['error' => 'Publication non trouvée'], Response::HTTP_NOT_FOUND);
-        }
-    
-        // Utilisez l'opérateur de coalescence nulle pour éviter une erreur si 'like' n'est pas défini.
-        $like = $data['like'] ?? null;
-    
-        // Déterminez si l'utilisateur "like" ou "dislike" basé sur la présence et la valeur de 'like'.
-        if ($like === true) {
-            // Logique pour "liker" : incrémenter les likes
-            $publication->setLikesCount($publication->getLikesCount() + 1);
-        } elseif ($like === false) {
-            // Logique pour "disliker" : décrémenter les likes
-            $publication->setLikesCount($publication->getLikesCount() - 1);
-        } else {
-            // Gérer le cas où 'like' n'est pas un booléen ou est absent.
-            return $this->json(['error' => 'Action non spécifiée ou invalide'], Response::HTTP_BAD_REQUEST);
-        }
-    
-        // Enregistrer les modifications dans la base de données.
-        $em->flush();
-    
-        // Retourne une réponse de succès.
-        return $this->json(['message' => 'Succès']);
-    }
+
     
 }

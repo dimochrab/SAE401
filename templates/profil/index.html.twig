@@ -71,33 +71,70 @@ document.querySelectorAll('.like-btn').forEach(button => {
 </script>
 {% endblock %}
 {% block body %}
-    <h1>Résultats de recherche pour "{{ query }}"</h1>
+<h2>Profil de {{ user.username }}</h2>
 
-    <h2>Publications</h2>
-<div class="publications">
+<!-- Affichage des informations de l'utilisateur -->
+<div>
+{% if app.user and app.user.username != user.username %}
+        {% if isFollowedByCurrentUser %}
+            <form action="{{ path('unfollow_route', {'username': user.username}) }}" method="POST">
+                <button type="submit">Ne plus suivre</button>
+            </form>
+        {% else %}
+            <form action="{{ path('follow_route', {'username': user.username}) }}" method="POST">
+                <button type="submit">Suivre</button>
+            </form>
+        {% endif %}
+    {% endif %}
+    <p>éco-score : {{ user.ecoScore }}</p>
+
+    <h2>Profil de l’utilisateur</h2>
+        <p>Nombre de publications publiées : {{ nombrePublications }}</p>
+        <p>Nombre d'abonnés : {{ followersCount }}</p>
+        <p>Nombre d'abonnements : {{ followingsCount }}</p>
+        <h2>Abonnés</h2>
+<ul>
+    {% for follower in followers %}
+        <li>{{ follower.FollowerID.username }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Abonnements</h2>
+<ul>
+    {% for following in followings %}
+        <li>{{ following.UserID.username }}</li>
+    {% endfor %}
+</ul>
+        
+
+    <p>Nom d'utilisateur: {{ user.username }}</p>
+    <p>Bio: {{ user.Bio }}</p>
+    <p>Email: {{ user.email }}</p>
+            <img src="{{ asset('/uploads/' ~ user.ProfilePicture) }}" alt="Photo de profile">
+        <img src="{{ asset('/uploads/' ~ user.ProfileCover) }}" alt="Photo de cover">
+
+</div>
+
+<!-- Affichage des publications de l'utilisateur -->
+<section>
+<h2>Publications</h2>
+<div>
     {% for data in publicationsData %}
-        <div class="publication" id="publication-{{ publication.id }}">
-            <div class="publication__header">
-                <div class="publication__author">
-                        <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
-                        <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
-                        <p>{{ publication.userID.username |e }}</p>
-                </div>
+        <div>
+            <p>Posté par : {{ data.publication.userID.username | escape }}</p>
+            <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
+            <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
+
             <p>{{ data.publication.dateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ data.publication.postType | escape  }}</p>
-            </div>
-            <div class="publication__content">
+            <p>{{ data.publication.postType | escape }}</p>
+
             {% if data.fileType == 'image' %}
                 <img src="{{ asset('uploads/' ~ data.publication.postContent) }}" alt="Publication">
             {% elseif data.fileType == 'video' %}
                 <video controls src="{{ asset('uploads/' ~ data.publication.postContent) }}"></video>
             {% endif %}
             {% if data.isLikedByCurrentUser %}
-            <div class="publication__likes">
-                <div class='large-font text-center top-20'>
-                    <i class="fas fa-heart like-icon" data-publication-id="{{ data.publication.id }}" data-liked="true">
-                    <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button></i>
-                </div>
+            <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button>
             {% else %}
                 <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
             {% endif %}
@@ -110,36 +147,31 @@ document.querySelectorAll('.like-btn').forEach(button => {
                     <li>{{ liker.Username }}</li>
                 
             {% endfor %}
+
             </ul>
             {% endif %}
-            <p>{{ publication.likesCount }}:like</p>
-            <button data-publication-id="{{ publication.id }}" class="like-btn">J'aime</button>
 
-            <!-- Affichage des commentaires pour cette publication -->
+            <!-- The comments section might need adjustment based on how you store and access comments in your data model -->
             <div>
-                {% for commentaire in publication.commentaires %}
-                    <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Image de profil" style="width: 25px;">
-                    <p>{{ commentaire.userID.username }}
-                    : {{ commentaire.content }}</p><p style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
+                {% for commentaire in data.publication.commentaires %}
+                    <p>
+                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username | escape }}" style="width: 25px;">
+                        {{ commentaire.userID.username | escape }}: {{ commentaire.content | escape }}
+                        <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
+                    </p>
                 {% endfor %}
             </div>
 
-            <!-- Formulaire d'ajout de commentaire -->
             <form id="commentForm" class="comment-form" data-publication-id="{{ data.publication.id }}" action="" method="post">
-                <input type="text" name="content" placeholder="Ajoutez un commentaire...">
+                <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
                 <input type="hidden" name="publicationId" value="{{ data.publication.id }}">
                 <button type="submit">Commenter</button>
             </form>
         </div>
     {% else %}
-        <p>Acune Publication trouvée.</p>
+        <p>Cet utilisateur n'a pas encore publié de contenu.</p>
     {% endfor %}
 </div>
 
-    <h2>Profils</h2>
-    {% for user in users %}
-        <div>{{ user.username }}: {{ user.email }}</div>
-    {% else %}
-        <p>Aucun profil trouvé.</p>
-    {% endfor %}
+</section>
 {% endblock %}

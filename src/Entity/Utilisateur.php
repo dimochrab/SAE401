@@ -50,12 +50,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Bio = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $EcoScore = null;
+
+    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'user')]
+    private Collection $likes;
+    
     public function __construct()
     {
         $this->connexions = new ArrayCollection();
         $this->publications = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->follows = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +261,48 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBio(?string $Bio): static
     {
         $this->Bio = $Bio;
+
+        return $this;
+    }
+
+    public function getEcoScore(): ?int
+    {
+        return $this->EcoScore;
+    }
+
+    public function setEcoScore(?int $EcoScore): static
+    {
+        $this->EcoScore = $EcoScore;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
+        }
 
         return $this;
     }
