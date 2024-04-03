@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Profil de l’utilisateur{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
 {% endblock %}
-
 {% block javascripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Changez le texte du bouton pour informer l'utilisateur
         submitButton.textContent = 'Envoi en cours...';
     });
-document.querySelectorAll('.like-btn').forEach(button => {
+document.querySelectorAll('.like-icon').forEach(button => {
     button.addEventListener('click', function(e) {
         const publicationId = this.dataset.publicationId;
         fetch(`/like/publication/${publicationId}`, {
@@ -75,22 +75,8 @@ document.querySelectorAll('.like-btn').forEach(button => {
 });
 </script>
 {% endblock %}
-{% block title %}Profil de l’utilisateur{% endblock %}
-{% block body %}
-    <div class="profil">
-=======
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
-{% endblock %}
 {% block body %}
 <div class="profil">
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
-{% endblock %}
-{% block body %}
-<div class="profil">
-
         <div class="imgprofil">
             <img class="profil-cov" src="{{ asset('img/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
             <img class="cover" src="{{ asset('img/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
@@ -183,6 +169,5 @@ document.querySelectorAll('.like-btn').forEach(button => {
                 <p>Email: {{ utilisateur.email }}</p>
             </div>
         {% endfor %}
-    </div>
-{% endblock %}
+    </div>{% endblock %}
 
