@@ -50,23 +50,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Bio = null;
 
-    #[ORM\Column(type: 'json')]
-    private array $roles = [];
-
-
-    #[ORM\Column(nullable: true)]
-    private ?int $EcoScore = null;
-
-    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'user')]
-    private Collection $likes;
-    
     public function __construct()
     {
         $this->connexions = new ArrayCollection();
         $this->publications = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->follows = new ArrayCollection();
-        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -245,11 +234,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-
+        return ['ROLE_USER'];
     }
 
     public function eraseCredentials(): void
@@ -272,5 +257,4 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-  
+}
