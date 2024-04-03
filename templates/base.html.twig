@@ -1,5 +1,5 @@
 <html>
-<<<<<<< HEAD
+
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}EcoConnect{% endblock %}</title>
@@ -9,7 +9,7 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-=======
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}EcoConnect{% endblock %}</title>
@@ -20,7 +20,6 @@
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
->>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
@@ -29,16 +28,15 @@
     </head>
     <body>
         <header>
-<<<<<<< HEAD
         {% if app.user %}
   {# Si l'utilisateur est connecté, affichez cette navbar #}
             <nav class="logged-in-nav">
-=======
+
     {% if app.user %}
         {# Si l'utilisateur est connecté, affichez cette navbar #}
 
         <nav class="logged-in-nav">
->>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
+
             <div class="logo">
                 <a href="{{ path('app_utilisateur') }}">
                     <img src="{{ asset('img/logoconnect.png') }}">
@@ -51,11 +49,8 @@
                 <li class="nav-item"><a href="{{ path('app_contact')}}">Contact</a>contact</li>
                 <li class="nav-item"><a href="{{ path('app_logout') }}"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
-<<<<<<< HEAD
-                                <form action="{{ path('app_search') }}" method="get">
-=======
                 <form action="{{ path('app_search') }}" method="get">
->>>>>>> 5ae39107abaaf442fc075d76d1fb4f660702682f
+
                     <input type="text" name="query" placeholder="Rechercher des posts ou des profils...">
                     <button type="submit">Rechercher</button>
                 </form>
