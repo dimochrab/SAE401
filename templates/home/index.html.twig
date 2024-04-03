@@ -75,47 +75,36 @@ document.querySelectorAll('.like-btn').forEach(btn => {
 
 {% block body %}
 <h2>Publications</h2>
-<div>
-    {% for data in publicationsData %}
-        <div>
-            <p>Posté par : {{ data.publication.userID.username | escape }}</p>
-            <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
-            <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
-
-            <p>{{ data.publication.dateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ data.publication.postType | escape }}</p>
-
-            {% if data.fileType == 'image' %}
-                <img src="{{ asset('uploads/' ~ data.publication.postContent) }}" alt="Publication">
-            {% elseif data.fileType == 'video' %}
-                <video controls src="{{ asset('uploads/' ~ data.publication.postContent) }}"></video>
-            {% endif %}
-            {% if data.isLikedByCurrentUser %}
-            <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button>
-            {% else %}
-                <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
-            {% endif %}
-            <span>{{ data.likesCount }} likes</span>
-             {% if data.likers|length > 0 %}
-            <p>Liked by:</p>
-            <ul>
-            {% for liker in data.likers %}
-                    <img src="{{ asset('uploads/' ~ liker.ProfilePicture) }}" alt="profil" style="width: 25px;">
-                    <li>{{ liker.Username }}</li>
-                
-            {% endfor %}
-
-            </ul>
-            {% endif %}
-
-            <!-- The comments section might need adjustment based on how you store and access comments in your data model -->
-            <div>
-                {% for commentaire in data.publication.commentaires %}
-                    <p>
-                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username | escape }}" style="width: 25px;">
-                        {{ commentaire.userID.username | escape }}: {{ commentaire.content | escape }}
-                        <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
-                    </p>
+<div class="publications">
+    {% for publication in publications %}
+        <div class="publication" id="publication-{{ publication.id }}">
+            <div class="publication__header">
+                <div class="publication__author">
+                    <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}">
+                    <p>{{ publication.userID.username |e }}</p>
+                </div>
+                <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
+            </div>
+            <div class="publication__content">
+                {% if publication.fileType == 'image' %}
+                    <img src="{{ asset('uploads/' ~ publication.postContent) }}" alt="Publication">
+                {% elseif publication.fileType == 'video' %}
+                    <video controls src="{{ asset('uploads/' ~ publication.postContent) }}"></video>
+                {% endif %}
+            </div>
+            <div class="publication__likes">
+                <div class='large-font text-center top-20'>
+                    <i class="fas fa-heart like-icon" data-publication-id="{{ publication.id }}"></i>
+                </div>
+                <p>{{ publication.likesCount }} likes</p>
+            </div>
+            <div class="publication__comments">
+                {% for commentaire in publication.commentaires %}
+                    <div class="comment">
+                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username |e }}">
+                        <p><strong>{{ commentaire.userID.username |e }}</strong>: {{ commentaire.content |e }}</p>
+                        <p class="comment__date">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
+                    </div>
                 {% endfor %}
             </div>
 
