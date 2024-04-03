@@ -37,9 +37,22 @@ class UtilisateurController extends AbstractController
                 $publication->fileType = 'unknown';
             }
         }
+
+        $followersCount = $followRepository->countFollowersOfUser($utilisateur);
+        $followingsCount = $followRepository->countFollowingsOfUser($utilisateur);
+        $followers = $followRepository->findFollowersOfUser($utilisateur);
+        $followings = $followRepository->findFollowingsOfUser($utilisateur);
+        $nombrePublications = $publicationRepository->countPublicationsByUser($utilisateur->getId());
+
+
         return $this->render('utilisateur/index.html.twig', [
             'utilisateur' => $utilisateur,
-            'publications' => $publications, // Passez les publications au template
+            'publications' => $publications,
+            'followersCount' => $followersCount,
+            'followingsCount' => $followingsCount,
+            'followers' => $followers,
+            'followings' => $followings,
+            'nombrePublications' => $nombrePublications,
         ]);
     }
     
