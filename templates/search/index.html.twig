@@ -71,29 +71,31 @@ document.querySelectorAll('.like-btn').forEach(button => {
 </script>
 {% endblock %}
 {% block body %}
-    <h1>Résultats de recherche pour "{{ query }}"</h1>
-
 <h2>Publications</h2>
-<div>
+<div class="publications">
     {% for data in publicationsData %}
-        <div>
-            <p>Posté par : {{ data.publication.userID.username | escape }}</p>
-            <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
-            <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
-
-            <p>{{ data.publication.dateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ data.publication.postType | escape }}</p>
-
+        <div class="publication">
+            <div class="publication__header">
+                <div class="publication__author">
+                    <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
+                    <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
+                    <p> {{ data.publication.userID.username | escape }}</p>
+                </div>
+                <p>{{ data.publication.dateTime|date('Y-m-d H:i') }}</p>
+            </div>
+            <div class="publication__content">
             {% if data.fileType == 'image' %}
                 <img src="{{ asset('uploads/' ~ data.publication.postContent) }}" alt="Publication">
             {% elseif data.fileType == 'video' %}
                 <video controls src="{{ asset('uploads/' ~ data.publication.postContent) }}"></video>
             {% endif %}
+            </div>
             {% if data.isLikedByCurrentUser %}
             <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button>
             {% else %}
                 <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
             {% endif %}
+            
             <span>{{ data.likesCount }} likes</span>
              {% if data.likers|length > 0 %}
             <p>Liked by:</p>
@@ -103,18 +105,17 @@ document.querySelectorAll('.like-btn').forEach(button => {
                     <li>{{ liker.Username }}</li>
                 
             {% endfor %}
-
             </ul>
+            <p>{{ data.publication.postType | escape }}</p>
             {% endif %}
 
-            <!-- The comments section might need adjustment based on how you store and access comments in your data model -->
-            <div>
+            <div class="publication__comments">
                 {% for commentaire in data.publication.commentaires %}
-                    <p>
+                    <div class="comment">
                         <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username | escape }}" style="width: 25px;">
-                        {{ commentaire.userID.username | escape }}: {{ commentaire.content | escape }}
-                        <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
-                    </p>
+                        <p><strong>{{ commentaire.userID.username | escape }}</strong>: {{ commentaire.content | escape }} </p>
+                        <p class="comment__date">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
+                    </div>
                 {% endfor %}
             </div>
 
@@ -124,6 +125,10 @@ document.querySelectorAll('.like-btn').forEach(button => {
                 <button type="submit">Commenter</button>
             </form>
         </div>
+</div>
+
+
+
     {% else %}
         <p>Acune Publication trouvée.</p>
     {% endfor %}
@@ -135,4 +140,8 @@ document.querySelectorAll('.like-btn').forEach(button => {
     {% else %}
         <p>Aucun profil trouvé.</p>
     {% endfor %}
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 {% endblock %}
