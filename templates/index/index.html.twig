@@ -2,8 +2,11 @@
 
 
 {% block body %}
-<div class="container">
-    <h1>Index</h1>
-    <p>Welcome to your new controller!</p>
+<img style="width: 100%" class="wave" src="{{ asset('img/wave.png') }}">
+<div class="indexcontainer">
+    <img src="{{ asset('img/logoconnect.png') }}" alt="EcoConnect Logo">
+    <h1 class="title">Bienvenue sur EcoConnect</h1>
+    <p class="subtitle">Pour accéder au contenu, veuillez vous connecter.</p>
+    <button class="btn btn-primary" onclick="window.location.href='{{ path('app_login') }}'">Se connecter</button>
 </div>
 {% endblock %}

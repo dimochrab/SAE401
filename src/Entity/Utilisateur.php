@@ -55,6 +55,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'user')]
     private Collection $likes;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
     
     public function __construct()
     {
@@ -239,10 +242,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRoles(): array
-    {
-        return ['ROLE_USER'];
-    }
+
 
     public function eraseCredentials(): void
     {
@@ -303,6 +303,22 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
                 $like->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

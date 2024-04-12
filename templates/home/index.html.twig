@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.textContent = 'Envoi en cours...';
     });
 
-document.querySelectorAll('.like-btn').forEach(btn => {
+document.querySelectorAll('.heart').forEach(btn => {
     btn.addEventListener('click', function() {
         const publicationId = this.getAttribute('data-publication-id');
         const liked = this.getAttribute('data-liked') === 'true';
@@ -71,7 +71,7 @@ document.querySelectorAll('.like-btn').forEach(btn => {
 {% endblock %}
 
 {% block body %}
-<h2>Publications</h2>
+<img style="width: 100%" class="wave" src="{{ asset('img/wave.png') }}">
 <div class="publications">
     {% for data in publicationsData %}
         <div class="publication">

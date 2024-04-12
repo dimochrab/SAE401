@@ -41,6 +41,7 @@ class Publication
     #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'publication')]
     private Collection $likes;
 
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
@@ -173,4 +174,6 @@ class Publication
 
         return $this;
     }
+
+    
 }

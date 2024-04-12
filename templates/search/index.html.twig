@@ -71,7 +71,7 @@ document.querySelectorAll('.like-btn').forEach(button => {
 </script>
 {% endblock %}
 {% block body %}
-<h2>Publications</h2>
+<img style="width: 100%" class="wave" src="{{ asset('img/wave.png') }}">
 <div class="publications">
     {% for data in publicationsData %}
         <div class="publication">
@@ -127,19 +127,23 @@ document.querySelectorAll('.like-btn').forEach(button => {
         </div>
 </div>
 
-
+<section>
+  <div class="skewed"></div>
 
     {% else %}
-        <p>Acune Publication trouvée.</p>
+        <p>Aucune Publication trouvée.</p>
     {% endfor %}
 </div>
 
+    <div class="searchprofil">
     <h2>Profils</h2>
     {% for user in users %}
         <div>{{ user.username }}: {{ user.email }}</div>
     {% else %}
         <p>Aucun profil trouvé.</p>
     {% endfor %}
+    </div>
+</section>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
