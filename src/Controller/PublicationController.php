@@ -84,6 +84,5 @@ class PublicationController extends AbstractController
 
         return $this->redirectToRoute('app_utilisateur');
     }
-
     
 }

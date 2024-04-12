@@ -211,6 +211,9 @@ $primary-color: #38d39f;
 }
 
 .logged-in-nav, .logged-out-nav {
+    position: fixed;
+    top: 0;
+    width: -webkit-fill-available;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -29,7 +29,7 @@ class PublicationType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '50M',
                         'mimeTypes' => [
                             'image/*',
                             'video/*',
