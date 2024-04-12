@@ -1,5 +1,5 @@
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
             <img src="{{ asset('img/bg.svg') }}">
         </div>
         <div class="login-content">
-            <form method="post">
+            <form class="form-login" method="post">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
@@ -20,7 +20,7 @@
                     </div>
                 {% endif %}
 
-                <h2 class="title">Welcome</h2>
+                <img src="{{ asset('img/logoconnect.png') }}">
                 <div class="input-div one">
                     <div class="i">
                         <i class="fas fa-user"></i>
@@ -43,6 +43,7 @@
                 <input type="submit" class="btn" value="Login">
                 <a href="{{ path('app_register') }}" class="btn" value="Register">Register</a>   
             </form>
+
         </div>
     </div>
 {% endblock %}

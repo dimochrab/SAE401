@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Changez le texte du bouton pour informer l'utilisateur
         submitButton.textContent = 'Envoi en cours...';
     });
-document.querySelectorAll('.like-btn').forEach(button => {
+document.querySelectorAll('.like-icon').forEach(button => {
     button.addEventListener('click', function(e) {
         const publicationId = this.dataset.publicationId;
         fetch(`/like/publication/${publicationId}`, {
@@ -73,6 +73,43 @@ document.querySelectorAll('.like-btn').forEach(button => {
 {% block body %}
     <h1>Résultats de recherche pour "{{ query }}"</h1>
 
+    <h2>Publications</h2>
+<div class="publications">
+    {% for publication in publications %}
+        <div class="publication" id="publication-{{ publication.id }}">
+            <div class="publication__header">
+                <div class="publication__author">
+                    <img src="{{ asset('uploads/' ~ publication.userID.profilePicture) }}" alt="Profil de {{ publication.userID.username |e }}">
+                    <p>{{ publication.userID.username |e }}</p>
+                </div>
+                <p>{{ publication.dateTime|date('Y-m-d H:i') }}</p>
+            </div>
+            <div class="publication__content">
+                {% if publication.fileType == 'image' %}
+                    <img src="{{ asset('uploads/' ~ publication.postContent) }}" alt="Publication">
+                {% elseif publication.fileType == 'video' %}
+                    <video controls src="{{ asset('uploads/' ~ publication.postContent) }}"></video>
+                {% endif %}
+            </div>
+            <div class="publication__likes">
+                <div class='large-font text-center top-20'>
+                    <i class="fas fa-heart like-icon" data-publication-id="{{ publication.id }}"></i>
+                </div>
+                <p>{{ publication.likesCount }} likes</p>
+            </div>
+            <div class="publication__comments">
+                {% for commentaire in publication.commentaires %}
+                    <div class="comment">
+                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username |e }}">
+                        <p><strong>{{ commentaire.userID.username |e }}</strong>: {{ commentaire.content |e }}</p>
+                        <p class="comment__date">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <form class="comment-form" id="comment-form-{{ publication.id }}" action="" method="post">
+                <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
+                <input type="hidden" name="publicationId" value="{{ publication.id }}">
+=========
 <h2>Publications</h2>
 <div>
     {% for data in publicationsData %}
@@ -90,7 +127,11 @@ document.querySelectorAll('.like-btn').forEach(button => {
                 <video controls src="{{ asset('uploads/' ~ data.publication.postContent) }}"></video>
             {% endif %}
             {% if data.isLikedByCurrentUser %}
-            <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button>
+            <div class="publication__likes">
+                <div class='large-font text-center top-20'>
+                    <i class="fas fa-heart like-icon" data-publication-id="{{ data.publication.id }}" data-liked="true">
+                    <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button></i>
+                </div>
             {% else %}
                 <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
             {% endif %}
@@ -103,23 +144,23 @@ document.querySelectorAll('.like-btn').forEach(button => {
                     <li>{{ liker.Username }}</li>
                 
             {% endfor %}
-
             </ul>
             {% endif %}
+            <p>{{ publication.likesCount }}:like</p>
+            <button data-publication-id="{{ publication.id }}" class="like-btn">J'aime</button>
 
-            <!-- The comments section might need adjustment based on how you store and access comments in your data model -->
+            <!-- Affichage des commentaires pour cette publication -->
             <div>
-                {% for commentaire in data.publication.commentaires %}
-                    <p>
-                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username | escape }}" style="width: 25px;">
-                        {{ commentaire.userID.username | escape }}: {{ commentaire.content | escape }}
-                        <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
-                    </p>
+                {% for commentaire in publication.commentaires %}
+                    <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Image de profil" style="width: 25px;">
+                    <p>{{ commentaire.userID.username }}
+                    : {{ commentaire.content }}</p><p style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
                 {% endfor %}
             </div>
 
+            <!-- Formulaire d'ajout de commentaire -->
             <form id="commentForm" class="comment-form" data-publication-id="{{ data.publication.id }}" action="" method="post">
-                <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
+                <input type="text" name="content" placeholder="Ajoutez un commentaire...">
                 <input type="hidden" name="publicationId" value="{{ data.publication.id }}">
                 <button type="submit">Commenter</button>
             </form>

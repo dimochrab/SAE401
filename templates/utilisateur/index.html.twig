@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Profil de l’utilisateur{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/build/app.css') }}">
+{% endblock %}
 {% block javascripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -37,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Changez le texte du bouton pour informer l'utilisateur
         submitButton.textContent = 'Envoi en cours...';
     });
-document.querySelectorAll('.like-btn').forEach(button => {
+document.querySelectorAll('.like-icon').forEach(button => {
     button.addEventListener('click', function(e) {
         const publicationId = this.dataset.publicationId;
         fetch(`/like/publication/${publicationId}`, {
@@ -72,8 +76,13 @@ document.querySelectorAll('.like-btn').forEach(button => {
 </script>
 {% endblock %}
 {% block body %}
-    <h2>Profil de l’utilisateur</h2>
-    <p>Nombre de publications publiées : {{ nombrePublications }}</p>
+<div class="profil">
+        <div class="imgprofil">
+            <img class="profil-cov" src="{{ asset('img/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
+            <img class="cover" src="{{ asset('img/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
+        </div>
+        <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
+        <p>Nombre de publications publiées : {{ nombrePublications }}</p>
     <p>Nombre de followers : {{ followersCount }}</p>
 <p>Nombre d'abonnements : {{ followingsCount }}</p>
 <h2>Abonnés</h2>
@@ -96,6 +105,7 @@ document.querySelectorAll('.like-btn').forEach(button => {
     <p>Vous n'avez pas encore passé le questionnaire éco-score.</p>
     <a href="{{ path('eco_questionnaire') }}">Passer le questionnaire éco-score</a>
 {% endif %}
+    <h2>Profil de l’utilisateur</h2>
     <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
     <p>Bio: {{ utilisateur.Bio }}</p>
     <p>Email: {{ utilisateur.email }}</p>
@@ -106,12 +116,17 @@ document.querySelectorAll('.like-btn').forEach(button => {
 
          <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
 
-<h2>Publications</h2>
-<div>
-    {% for publication in publications %}
-        <div>
-            <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ publication.postType }}</p>
+
+    <h2>Publications</h2>
+    <div class="publication-mosaic">
+        {% for publication in publications %}
+            <div class="publication">
+            <h2>Profil de l’utilisateur</h2>
+        <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+        <p>Bio: {{ utilisateur.Bio }}</p>
+        <p>Email: {{ utilisateur.email }}</p>
+                <p>{{ publication.DateTime|date('Y-m-d H:i') }}</p>
+                <p>{{ publication.postType }}</p>
 
             {% if publication.fileType == 'image' %}
 
@@ -120,9 +135,11 @@ document.querySelectorAll('.like-btn').forEach(button => {
             {% elseif publication.fileType == 'video' %}
                 <video controls src="{{ asset('/uploads/' ~ publication.postContent) }}"></video>
             {% endif %}
-             <a href="{{ path('publication_edit', {'id': publication.id}) }}" class="btn btn-primary">Modifier</a>
-             <a href="{{ path('publication_delete', {'id': publication.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">Supprimer</a>
-                        <div>
+                <div class="publication-buttons">
+                    <a href="{{ path('publication_edit', {'id': publication.id}) }}" class="btn btn-primary">Modifier</a>
+                    <a href="{{ path('publication_delete', {'id': publication.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');">Supprimer</a>
+                </div>
+                <div>
                 {% for commentaire in publication.commentaires %}
                     <p>
                         <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username |e }}" style="width: 25px;">
@@ -130,19 +147,27 @@ document.querySelectorAll('.like-btn').forEach(button => {
                         <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
                     </p>
                 {% endfor %}
-            </div>
-
-            <form id="commentForm" class="comment-form" data-publication-id="{{ publication.id }}" action="" method="post">
+                </div>
+                <form id="commentForm" class="comment-form" data-publication-id="{{ publication.id }}" action="" method="post">
                 <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
                 <input type="hidden" name="publicationId" value="{{ publication.id }}">
                 <button type="submit">Commenter</button>
-            </form>
-        </div>
+                </form>
+            </div>
     {% else %}
         <p>Aucune publication à afficher.</p>
     {% endfor %}
 </div>
 
     {# Afficher d'autres informations de l'utilisateur comme vous le souhaitez #}
-{% endblock %}
+<div class="suggestions">
+        <h3>Suggestions d'amis:</h3>
+        {% for utilisateurs in utilisateur %}
+            <div class="suggestion">
+                <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
+                <p>Bio: {{ utilisateur.Bio }}</p>
+                <p>Email: {{ utilisateur.email }}</p>
+            </div>
+        {% endfor %}
+    </div>{% endblock %}
 

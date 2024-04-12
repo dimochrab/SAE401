@@ -1,37 +1,66 @@
-{% extends 'base.html.twig' %}
+{% extends '/security/login.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+
 {% block body %}
-    <section class="container">
-        <div class="row">
-            <div class="col">
-                <h1>Register</h1>
+    <img class="wave" src="{{ asset('img/wave.png') }}">
+    <div class="container">
+        <div class="img">
+            <img src="{{ asset('img/bg.svg') }}">
+        </div>
+                <div class="login-content">
+            <form class="form-login" method="post">
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+
+                <img src="{{ asset('img/logoconnect.png') }}">
 
                 {{ form_errors(registrationForm) }}
 
-
                 {{ form_start(registrationForm) }}
-                <fieldset>
-                    <legend>Personal Information</legend>
-                    {{ form_row(registrationForm.Username) }}
-                    {{ form_row(registrationForm.Email) }}
-                </fieldset>
-                <fieldset>
-                    <legend>Pictures</legend>
-                    {{ form_row(registrationForm.Profile_picture) }}
-                    {{ form_row(registrationForm.Profile_cover) }}
-                </fieldset>
-
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Password'
-                }) }}
-                {{ form_row(registrationForm.RGPDConsent) }}
-
+                
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.Username, {'attr': {'class': 'input', 'placeholder': 'Username'}}) }}
+                    </div>
+                </div>
+                
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.Email, {'attr': {'class': 'input', 'placeholder': 'Email'}}) }}
+                    </div>
+                </div>
+                
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'input', 'placeholder': 'Password'}}) }}
+                    </div>
+                </div>
+                
                 <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                <a href="{{ path('app_login') }}" class="btn" value="Login">Login</a>
+                
                 {{ form_end(registrationForm) }}
-            </div>
+            </form>
         </div>
-    </section>
-
+    </div>
 {% endblock %}
+
