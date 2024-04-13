@@ -21,15 +21,15 @@ class PublicationType extends AbstractType
 
             ->add('post_type',  TextareaType::class, [
                  'required' => true, 
-                    'label' => 'Description',
+                    'label' => false,
             ])
             ->add('file', FileType::class, [
-                'label' => 'Upload Image/Video',
+                'label' => false,
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
                     new File([
-                        'maxSize' => '50M',
+                        'maxSize' => '1024k',
                         'mimeTypes' => [
                             'image/*',
                             'video/*',

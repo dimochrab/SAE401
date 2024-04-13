@@ -1,12 +1,43 @@
-{# templates/contact/index.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block title %}Contactez-nous{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+{% endblock %}
 
 {% block body %}
-<img style="width: 100%" class="wave" src="{{ asset('img/wave.png') }}">
-<h1>Contactez-nous</h1>
-
-{{ form_start(contact_form) }}
-    {{ form_widget(contact_form) }}
-{{ form_end(contact_form) }}
+    <img class="wave" src="{{ asset('img/wave.png') }}">
+    <div class="container">
+        <div class="img">
+            <img src="{{ asset('img/bg.svg') }}">
+        </div>
+        <div class="login-content">
+            <h1>Contactez-nous</h1>
+            <form class="form-login" method="post">
+                {{ form_start(contact_form) }}
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {{ form_row(contact_form.name, {'attr': {'class': 'input', 'placeholder': 'Name'}}) }}
+                </div>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    {{ form_row(contact_form.email, {'attr': {'class': 'input', 'placeholder': 'Email'}}) }}
+                </div>
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    {{ form_row(contact_form.message, {'attr': {'class': 'input', 'placeholder': 'Message'}}) }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+                {{ form_end(contact_form) }}
+            </form>
+        </div>
+    </div>
 {% endblock %}

@@ -90,10 +90,11 @@ document.querySelectorAll('.heart').forEach(btn => {
                 <video controls src="{{ asset('uploads/' ~ data.publication.postContent) }}"></video>
             {% endif %}
             </div>
+            <div class="publication__likes">
             {% if data.isLikedByCurrentUser %}
             <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button>
             {% else %}
-                <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
+            <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
             {% endif %}
             
             <span>{{ data.likesCount }} likes</span>
@@ -106,8 +107,9 @@ document.querySelectorAll('.heart').forEach(btn => {
                 
             {% endfor %}
             </ul>
-            <p>{{ data.publication.postType | escape }}</p>
             {% endif %}
+            </div>
+            <p>{{ data.publication.postType | escape }}</p>
 
             <div class="publication__comments">
                 {% for commentaire in data.publication.commentaires %}

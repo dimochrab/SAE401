@@ -72,7 +72,7 @@ document.querySelectorAll('.like-btn').forEach(button => {
 </script>
 {% endblock %}
 {% block body %}
-<img style="width: 100%" class="wave" src="{{ asset('img/wave.png') }}">
+<img class="wave" src="{{ asset('img/wave.png') }}">
 <div class="profil">
         <div class="imgprofil">
         <a href="{{ path('app_modify_profile') }}">
@@ -131,15 +131,5 @@ document.querySelectorAll('.like-btn').forEach(button => {
     {% endfor %}
     </div>
 </div>
-    <div class="suggestions">
-        <h3>Suggestions d'amis:</h3>
-        {% for utilisateurs in utilisateur %}
-            <div class="suggestion">
-                <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
-                <p>Bio: {{ utilisateur.Bio }}</p>
-                <p>Email: {{ utilisateur.email }}</p>
-            </div>
-        {% endfor %}
-    </div>
 {% endblock %}
 

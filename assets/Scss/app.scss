@@ -1,7 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     overflow: auto;
     margin: 0;
+    margin-top: 200px;
 }
 
 $primary-color: #38d39f;
@@ -26,11 +34,13 @@ $primary-color: #38d39f;
     }
 }
 
+
 .wave {
     position: fixed;
     bottom: 0;
     left: 0;
     height: 100%;
+    width: 100%;
     z-index: -1;
 }
 
@@ -65,7 +75,19 @@ $primary-color: #38d39f;
             border: 1px solid #38d39f;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
         }
+
+        textarea {
+            width: 100%;
+            height: 51px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: 'poppins', sans-serif;
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 1rem;}
 
         img {
             width: 250px;
@@ -210,8 +232,11 @@ $primary-color: #38d39f;
     }
 }
 
+
+
 .logged-in-nav, .logged-out-nav {
     position: fixed;
+    z-index: 9999;
     top: 0;
     width: -webkit-fill-available;
     display: flex;
@@ -220,6 +245,67 @@ $primary-color: #38d39f;
     padding: 30px 40px;
     background-color: #ebebeb;
     color: $primary-color;
+
+
+    // searchbar
+.search-box {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    font-family: 'Lato' !important;
+  
+    .input-search {
+      height: 50px;
+      width: 50px;
+      border-style: none;
+      padding: 5px;
+      font-size: 12px;
+      outline: none;
+      border-radius: 25px;
+      transition: all .5s ease-in-out;
+      background-color: $primary-color;
+      padding-left: 40px;
+      color: $primary-color;
+  
+      &::placeholder {
+        color: $primary-color;
+        font-size: 12px;
+      }
+  
+      &:focus {
+        width: 300px;
+        border-radius: 0px;
+        background-color: transparent;
+        border-bottom: 1px solid $primary-color;
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+      }
+    }
+  
+    .btn-search {
+        width: 50px;
+        height: 50px;
+        border-style: none;
+        font-size: 12px;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        left: 0px;
+        color: white;
+        background-color: transparent;
+        pointer-events: painted;
+    
+        &:focus ~ .input-search {
+        color: $primary-color;  
+        width: 300px;
+        border-radius: 0px;
+        background-color: transparent;
+        border-bottom: 1px solid $primary-color;
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+      }
+    }
 }
 
 .nav-links {
@@ -296,12 +382,10 @@ $primary-color: #38d39f;
 
 // page profil
 .profil {
-    display: inline-block; /* Modifier pour inline-block */
     vertical-align: top;
     text-align: center;
-    margin-left: 7%;
-    width: 60%;
-    background-color: rgb(230, 230, 230);
+    width: 100%;
+    background-image: url("https://www.wallpapertip.com/wmimgs/1-19189_4k-abstract-wallpaper-abstract-wallpaper-4k.jpg");
 
     .imgprofil {
         width: 100%;
@@ -327,6 +411,12 @@ $primary-color: #38d39f;
                 left: 50%;
                 transform: translateX(-50%);
                 border: 5px solid #fff;
+                transition: all 0.3s ease-in-out;
+
+                &:hover {
+                    background-color: darken($color: #000000, $amount: 10);
+                    opacity: 0.8;
+                }
                 }
             }
   
@@ -370,29 +460,6 @@ $primary-color: #38d39f;
     }
 }
 
-  .suggestions {
-    display: inline-block; 
-    vertical-align: top;
-    background-color: rgb(230, 230, 230);
-    padding: 20px;
-    width: 20%;
-    margin-left: 5%;
-}
-
-.suggestions-bar {
-    width: 5px;
-    height: 50px;
-    background-color: #000;
-    margin-bottom: 20px;
-}
-
-.suggestion {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-}
 
 // page home (feed)
 .publications {
@@ -402,116 +469,131 @@ $primary-color: #38d39f;
     margin-top: 100px;
 }
 
-.publication {
-    width: 600px; // Ajuster la largeur selon vos besoins
-    margin-bottom: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-
-    .publication__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .publication__author {
-        display: flex;
-        align-items: center;
-    }
-
-    .publication__author img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .publication__content {
-        margin-bottom: 10px;
-
-        img, video {
-            width: 100%;
-            height: auto;
-        }
-    }
-
-    .publication__likes {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-
-        i {
-            margin-right: 5px;
-            cursor: pointer;
-            width: 50px;
-        }
-
-        .like-icon.active {
-            color: $primary-color;
-            transition: color 0.5s;
-          }
-    }
-
-    .heart {
-        width: 100px;
-        height: 100px;
-        border: none;
-        background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
-        background-position: 0 0;
-        cursor: pointer;}
-      
-        .animate-heart {
-            animation: fave-heart 1s steps(28);
-          }
-          
-          @keyframes fave-heart {
-            0% {
-              background-position: 0 0;
-            }
-            100% {
-              background-position: -2800px 0;
-            }
-          }
-
-    .publication__comments {
-        .comment {
+    .publication {
+        width: 600px;
+        margin-bottom: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+    
+        .publication__header {
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
-
-            img {
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                margin-right: 5px;
-            }
-
-            .comment__date {
-                font-size: 12px;
-                color: #777;
-                margin-left: auto;
-            }
+            justify-content: space-between;
+            margin-bottom: 10px;
         }
-    }
-
-    .comment-form {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-
-        input[type="text"] {
-            flex: 1;
+    
+        .publication__author {
+            display: flex;
+            align-items: center;
+        }
+    
+        .publication__author img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             margin-right: 10px;
         }
-
-        button {
-            flex-shrink: 0;
+    
+        .publication__content {
+            margin-bottom: 10px;
+    
+            img, video {
+                width: 100%;
+                height: auto;
+            }
+        }
+    
+        .publication__likes {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        
+            .heart {
+                background: none;
+                border: none;
+                cursor: pointer;
+                margin-right: 10px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+            }
+        
+            .heart img {
+                width: 25px;
+                height: 25px;
+                transition: transform 0.3s ease-in-out;
+            }
+        
+            .heart.active img {
+                transform: scale(1.2); // Pour l'animation agrandissement
+            }
+        
+            span {
+                margin-left: 5px;
+            }
+        
+            ul {
+                display: flex;
+                list-style: none;
+                margin-top: 5px;
+        
+                img {
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    margin-right: 5px;
+                }
+            }
+        }
+        
+    
+        .publication__comments {
+            margin-bottom: 10px;
+    
+            .comment {
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+    
+                img {
+                    width: 20px;
+                    border-radius: 50%;
+                    margin-right: 5px;
+                }
+    
+                .comment__date {
+                    font-size: 12px;
+                    color: #777;
+                    margin-left: auto;
+                }
+            }
+    
+            .show-more-comments {
+                cursor: pointer;
+                color: #3498db;
+                margin-top: 5px;
+            }
+        }
+    
+        .comment-form {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+    
+            input[type="text"] {
+                flex: 1;
+                margin-right: 10px;
+            }
+    
+            button {
+                flex-shrink: 0;
+            }
         }
     }
-}
+
+    
 
 // search page
 .searchprofil{
@@ -570,6 +652,7 @@ $primary-color: #38d39f;
         }
 
         .btn {
+            
             padding: 10px 20px;
             background-color: $primary-color;
             color: white;

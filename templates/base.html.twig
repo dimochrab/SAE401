@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{{ asset('build/app.css') }}">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -37,10 +38,12 @@
                     <li class="nav-item"><a href="{{ path('admin') }}"><span class="material-symbols-outlined">settings_accessibility</span></a></li>
                 {% endif %}
             </ul>
-                <form action="{{ path('app_search') }}" method="get">
-                    <input type="text" name="query" placeholder="Rechercher des posts ou des profils...">
-                    <button type="submit">Rechercher</button>
-                </form>
+                <div class="search-box">
+                    <form action="{{ path('app_search') }}" method="get">
+                        <button class="btn-search" type="submit"><i class="fas fa-search"></i></button>
+                        <input type="text" class="input-search" name="query" placeholder="Rechercher publications ou profils">
+                    </form>
+                </div>
             </nav>
 {% else %}
         {# Si l'utilisateur n'est pas connecté, affichez cette autre navbar #}
