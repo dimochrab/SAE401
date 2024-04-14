@@ -68,7 +68,8 @@ document.querySelectorAll('.like-btn').forEach(button => {
 <div class="profil">
         <div class="imgprofil">
         <a href="{{ path('app_modify_profile') }}">
-        <img class="profil-cov" src="{{ asset('/uploads/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile"></a>
+        <img class="profil-cov" src="{{ asset('/uploads/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile">
+        </a>
         <img class="cover" src="{{ asset('/uploads/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
 </div>
 <div class="info">

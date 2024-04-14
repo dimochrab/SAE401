@@ -75,6 +75,11 @@ $primary-color: #38d39f;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: white;
+
+
+            .alert {
+                color: red;
+            }
         }
 
         textarea {
@@ -196,6 +201,18 @@ $primary-color: #38d39f;
 
             &.pass {
                 margin-bottom: 4px;
+
+                > div > ul {
+                    position: fixed;
+                    top: 0;
+                    right: 170px;
+                
+                
+                > li {
+                    list-style: none;
+                    color: red;
+                }
+            }
             }
         }
 
@@ -242,15 +259,45 @@ $primary-color: #38d39f;
     justify-content: center;    
     border: 1px solid $primary-color;
     border-radius: 5px;
-    margin-bottom: 20px;
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 20vh;
+    padding: 20px;
+    box-shadow: 3px 3px #38d39f, -1em 0 0.4em #27b183;
+
+    h2{
+        color: $primary-color;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
     &-body {
         padding: 20px;
+
+        #eco_score_questionnaire{
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            gap: 10rem;
+        }
     }
 
     .btn-primary {
+        @extend .btn-base;
+        margin: 0 auto;
+        margin-top: 20px;
+        text-align: center;
         background-color: $primary-color;
-        border-color: $primary-color;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        width: 15%;
+        cursor: pointer;
+
     
         &:hover {
             background-color: darken($primary-color, 10%);
@@ -373,7 +420,7 @@ $primary-color: #38d39f;
 
 // index quand user pas connecté
 .indexcontainer {
-    margin-top: 10vh;
+    margin-top: 30vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -414,6 +461,7 @@ $primary-color: #38d39f;
     text-align: center;
     width: 80%;
     margin: 0 auto;
+    margin-top: 85px;
     background-color: rgb(233, 233, 233);
     color: $primary-color;
 
@@ -423,6 +471,11 @@ $primary-color: #38d39f;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+
+            .edit{
+                display: flex;
+                justify-content: flex-end;
+            }
   
                 .cover {
                 width: 100%;
@@ -493,10 +546,17 @@ $primary-color: #38d39f;
   
     a {
       display: block;
-      margin-top: 20px;
       text-decoration: none;
       color: #007bff;
       font-size: 18px;
+
+      img{
+        width: 35px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+      
+      }
     }
     .publication-mosaic {
         display: flex;
@@ -508,7 +568,32 @@ $primary-color: #38d39f;
           width: 200px;
           text-align: center;
           border-radius: 10px;
-          box-shadow: 3px 3px $primary-color, -1em 0 .4em darken($primary-color, 10%);
+          box-shadow: 3px 3px $primary-color, -0.6em 0 .2em darken($primary-color, 10%);
+            transition: all 0.3s ease-in-out;
+
+          &:hover{
+            box-shadow: -3px -3px $primary-color, 0.6em 0 .2em darken($primary-color, 10%);
+            transition: all 0.3s ease-in-out;
+          }
+
+    
+          .publication__author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+          }
+    
+          .publication__author img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+          }
+    
+          .publication__content {
+            margin-bottom: 10px;
+         }
     
           img,
           video {
@@ -520,6 +605,56 @@ $primary-color: #38d39f;
             margin-top: 10px;
           }
         }
+
+        .publication__likes {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        
+            .heart {
+                background: none;
+                border: none;
+                cursor: pointer;
+                margin-right: 10px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+            }
+        
+            ion-icon {
+                font-size: 25px;
+                color: $primary-color; // Couleur du contour de l'icône
+                transition: all 0.3s ease-in-out;
+            }
+        
+            // Styles pour l'icône lorsqu'elle est active (likée)
+            &.active ion-icon {
+                color: $primary-color; // Couleur de remplissage de l'icône
+            }
+            
+            .liked {
+                display: flex;
+                align-items: center;
+                margin-left: 15px;
+                font-style: italic;
+                font-weight: 200;
+            }
+            span {
+                margin-left: 5px;
+            }
+        
+            ul {
+                display: flex;
+                list-style: none;
+        
+                img {
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    margin-right: 5px;
+                }
+            }
+        }
     }
 }
 
@@ -529,7 +664,7 @@ $primary-color: #38d39f;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 150px;
 }
 
     .publication {
@@ -608,6 +743,12 @@ $primary-color: #38d39f;
             ul {
                 display: flex;
                 list-style: none;
+                gap: 10px;
+
+                li{
+                    display: flex;
+                    align-items: center;
+                }
         
                 img {
                     width: 25px;

@@ -116,9 +116,8 @@ document.querySelectorAll('.heart').forEach(btn => {
             <p>Liked by:</p>
             <ul>
             {% for liker in data.likers %}
-                    <img src="{{ asset('uploads/' ~ liker.ProfilePicture) }}" alt="profil" style="width: 25px;">
-                    <li>{{ liker.Username }}</li>
-                
+                    <li><img src="{{ asset('uploads/' ~ liker.ProfilePicture) }}" alt="profil" style="width: 25px;">
+                    {{ liker.Username }}</li>
             {% endfor %}
             </ul>
             </div>
@@ -146,7 +145,7 @@ document.querySelectorAll('.heart').forEach(btn => {
         <p>Cet utilisateur n'a pas encore publié de contenu.</p>
     {% endfor %}
 </div>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 {% endblock %}
 

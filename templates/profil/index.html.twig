@@ -28,37 +28,41 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erreur:', error));
         });
     });
-document.querySelectorAll('.like-btn').forEach(button => {
-    button.addEventListener('click', function(e) {
-        const publicationId = this.dataset.publicationId;
-        fetch(`/like/publication/${publicationId}`, {
+document.querySelectorAll('.heart').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const publicationId = this.getAttribute('data-publication-id');
+        const liked = this.getAttribute('data-liked') === 'true';
+
+        fetch(`/like/${publicationId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ like: true }) // Assurez-vous que cela correspond à ce que votre backend attend
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const likesCountElement = this.previousElementSibling;
-                let likesCount = parseInt(likesCountElement.textContent);
-                if (this.textContent === 'Like') {
-                    likesCountElement.textContent = `${++likesCount} likes`;
-                    this.textContent = 'Liked';
-                } else {
-                    likesCountElement.textContent = `${--likesCount} likes`;
-                    this.textContent = 'Like';
-                }
-            } else {
-                alert('Une erreur est survenue.');
+                'X-Requested-With': 'XMLHttpRequest' // Si vous utilisez des sessions Symfony
             }
         })
-        .catch(error => console.error('Erreur:', error));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data.message);
+            // Mettre à jour la couleur de l'icône en fonction de l'état "Like"
+            const icon = this.querySelector('ion-icon');
+            if (liked) {
+                icon.style.color = '#ccc'; // Contour de l'icône
+            } else {
+                icon.style.color = 'var(--primary-color)'; // Couleur principale (ici utilisée en supposant que la variable CSS --primary-color est définie)
+            }
+            // Inverser l'état "Like"
+            this.setAttribute('data-liked', (!liked).toString());
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+        });
     });
 });
-
-
 });
 </script>
 {% endblock %}
@@ -136,21 +140,33 @@ document.querySelectorAll('.like-btn').forEach(button => {
 <div class="publication-mosaic">
     {% for data in publicationsData %}
         <div class="publication">
+            <div class="publication__header">
             <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
-            <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
+            <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="height: 35px;"></a>
+            <p> {{ data.publication.userID.username | escape }}</p>
+            </div>
             <p>{{ data.publication.DateTime|date('Y-m-d H:i') }}</p>
             {% if data.fileType == 'image' %}
                 <img src="{{ asset('uploads/' ~ data.publication.postContent) }}" alt="Publication">
             {% elseif data.fileType == 'video' %}
                 <video controls src="{{ asset('uploads/' ~ data.publication.postContent) }}"></video>
             {% endif %}
+            <div class="publication__likes">
             {% if data.isLikedByCurrentUser %}
-            <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button>
+                <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'" class="heart active">
+                    <ion-icon name="leaf"></ion-icon>
+                </button>
+
             {% else %}
-                <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
+                <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'" class="heart">
+                    <ion-icon name="leaf-outline"></ion-icon>
+                </button>
             {% endif %}
             <span>{{ data.likesCount }} likes</span>
             </div>
+            <a href="{{ path('app_home', {'id': data.publication.id}) }}">Voir le post</a>
+
+        </div>
     {% else %}
         <p>Cet utilisateur n'a pas encore publié de contenu.</p>
     {% endfor %}
