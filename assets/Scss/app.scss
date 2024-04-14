@@ -9,7 +9,6 @@ body {
     font-family: 'Poppins', sans-serif;
     overflow: auto;
     margin: 0;
-    margin-top: 200px;
 }
 
 $primary-color: #38d39f;
@@ -112,6 +111,11 @@ $primary-color: #38d39f;
 
             &.one {
                 margin-top: 0;
+            }
+
+            label{
+                position: relative;
+                bottom: 20px;
             }
 
             .i {
@@ -232,6 +236,29 @@ $primary-color: #38d39f;
     }
 }
 
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    border: 1px solid $primary-color;
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+    &-body {
+        padding: 20px;
+    }
+
+    .btn-primary {
+        background-color: $primary-color;
+        border-color: $primary-color;
+    
+        &:hover {
+            background-color: darken($primary-color, 10%);
+            border-color: darken($primary-color, 10%);
+        }
+    }
+}
+
 
 
 .logged-in-nav, .logged-out-nav {
@@ -253,7 +280,8 @@ $primary-color: #38d39f;
     height: fit-content;
     position: relative;
     font-family: 'Lato' !important;
-  
+    margin-left: 20px;
+
     .input-search {
       height: 50px;
       width: 50px;
@@ -384,8 +412,10 @@ $primary-color: #38d39f;
 .profil {
     vertical-align: top;
     text-align: center;
-    width: 100%;
-    background-image: url("https://www.wallpapertip.com/wmimgs/1-19189_4k-abstract-wallpaper-abstract-wallpaper-4k.jpg");
+    width: 80%;
+    margin: 0 auto;
+    background-color: rgb(233, 233, 233);
+    color: $primary-color;
 
     .imgprofil {
         width: 100%;
@@ -419,6 +449,37 @@ $primary-color: #38d39f;
                 }
                 }
             }
+
+            .info {
+                margin-top: 65px;
+                display: flex;
+                justify-content: space-around;
+            
+                .info_stat {
+                    display: flex;
+                    
+            
+                    span {
+                        display: flex;
+                        align-items: center; // Alignement vertical
+                    }
+            
+                    p {
+                        margin-left: 10px; // Espacement entre l'icône et le texte
+                    }
+                }
+            }
+        
+            .bio{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+
+            }
+
+            .eco-score{
+                margin-top: 50px;
+            }
   
     h2 {
       margin-top: 20px;
@@ -446,6 +507,8 @@ $primary-color: #38d39f;
         .publication {
           width: 200px;
           text-align: center;
+          border-radius: 10px;
+          box-shadow: 3px 3px $primary-color, -1em 0 .4em darken($primary-color, 10%);
     
           img,
           video {
@@ -520,16 +583,24 @@ $primary-color: #38d39f;
                 align-items: center;
             }
         
-            .heart img {
-                width: 25px;
-                height: 25px;
-                transition: transform 0.3s ease-in-out;
+            ion-icon {
+                font-size: 25px;
+                color: $primary-color; // Couleur du contour de l'icône
+                transition: all 0.3s ease-in-out;
             }
         
-            .heart.active img {
-                transform: scale(1.2); // Pour l'animation agrandissement
+            // Styles pour l'icône lorsqu'elle est active (likée)
+            &.active ion-icon {
+                color: $primary-color; // Couleur de remplissage de l'icône
             }
-        
+            
+            .liked {
+                display: flex;
+                align-items: center;
+                margin-left: 15px;
+                font-style: italic;
+                font-weight: 200;
+            }
             span {
                 margin-left: 5px;
             }
@@ -537,7 +608,6 @@ $primary-color: #38d39f;
             ul {
                 display: flex;
                 list-style: none;
-                margin-top: 5px;
         
                 img {
                     width: 25px;
@@ -585,10 +655,25 @@ $primary-color: #38d39f;
             input[type="text"] {
                 flex: 1;
                 margin-right: 10px;
+                border: none;
+                height: 35px;
+
+                &:focus {
+                    outline: none;
+                }
             }
     
-            button {
-                flex-shrink: 0;
+            .btn {
+                padding: 10px 20px;
+            background-color: $primary-color;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
             }
         }
     }
@@ -652,7 +737,6 @@ $primary-color: #38d39f;
         }
 
         .btn {
-            
             padding: 10px 20px;
             background-color: $primary-color;
             color: white;

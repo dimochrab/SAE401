@@ -58,7 +58,15 @@ document.querySelectorAll('.heart').forEach(btn => {
         })
         .then(data => {
             console.log(data.message);
-            // Actualiser le DOM en conséquence, par exemple en mettant à jour le nombre de likes
+            // Mettre à jour la couleur de l'icône en fonction de l'état "Like"
+            const icon = this.querySelector('ion-icon');
+            if (liked) {
+                icon.style.color = '#ccc'; // Contour de l'icône
+            } else {
+                icon.style.color = 'var(--primary-color)'; // Couleur principale (ici utilisée en supposant que la variable CSS --primary-color est définie)
+            }
+            // Inverser l'état "Like"
+            this.setAttribute('data-liked', (!liked).toString());
         })
         .catch(error => {
             console.error('There was an error!', error);
@@ -92,13 +100,19 @@ document.querySelectorAll('.heart').forEach(btn => {
             </div>
             <div class="publication__likes">
             {% if data.isLikedByCurrentUser %}
-            <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">DisLike</button>
+                <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'" class="heart active">
+                    <ion-icon name="leaf"></ion-icon>
+                </button>
+
             {% else %}
-            <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
+                <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'" class="heart">
+                    <ion-icon name="leaf-outline"></ion-icon>
+                </button>
             {% endif %}
             
             <span>{{ data.likesCount }} likes</span>
              {% if data.likers|length > 0 %}
+             <div class="liked">
             <p>Liked by:</p>
             <ul>
             {% for liker in data.likers %}
@@ -107,6 +121,7 @@ document.querySelectorAll('.heart').forEach(btn => {
                 
             {% endfor %}
             </ul>
+            </div>
             {% endif %}
             </div>
             <p>{{ data.publication.postType | escape }}</p>
@@ -115,7 +130,7 @@ document.querySelectorAll('.heart').forEach(btn => {
                 {% for commentaire in data.publication.commentaires %}
                     <div class="comment">
                         <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username | escape }}" style="width: 25px;">
-                        <p><strong>{{ commentaire.userID.username | escape }}</strong>: {{ commentaire.content | escape }} </p>
+                        <p><span>{{ commentaire.userID.username | escape }}</span>: {{ commentaire.content | escape }} </p>
                         <p class="comment__date">{{ commentaire.dateTime|date('Y-m-d H:i') }}</p>
                     </div>
                 {% endfor %}
@@ -124,7 +139,7 @@ document.querySelectorAll('.heart').forEach(btn => {
             <form id="commentForm" class="comment-form" data-publication-id="{{ data.publication.id }}" action="" method="post">
                 <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
                 <input type="hidden" name="publicationId" value="{{ data.publication.id }}">
-                <button type="submit">Commenter</button>
+                <button class="btn" type="submit">Commenter</button>
             </form>
         </div>
     {% else %}

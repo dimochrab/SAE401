@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block javascripts %}
-<script>
+<script type="module">
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.comment-form').forEach(form => {
         form.addEventListener('submit', function(e) {
@@ -27,14 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Erreur:', error));
         });
-    });
-    document.getElementById('commentForm').addEventListener('submit', function() {
-        // Trouvez le bouton de soumission dans le formulaire
-        var submitButton = this.querySelector('button[type="submit"]');
-        // Désactivez le bouton
-        submitButton.disabled = true;
-        // Changez le texte du bouton pour informer l'utilisateur
-        submitButton.textContent = 'Envoi en cours...';
     });
 document.querySelectorAll('.like-btn').forEach(button => {
     button.addEventListener('click', function(e) {
@@ -72,7 +64,6 @@ document.querySelectorAll('.like-btn').forEach(button => {
 {% endblock %}
 {% block body %}
 <img style="width: 100%" class="wave" src="{{ asset('img/wave.png') }}">
-<h2>Profil de {{ user.username }}</h2>
 
 <!-- Affichage des informations de l'utilisateur -->
 <div>
@@ -87,48 +78,67 @@ document.querySelectorAll('.like-btn').forEach(button => {
             </form>
         {% endif %}
     {% endif %}
-    <p>éco-score : {{ user.ecoScore }}</p>
 
-    <h2>Profil de l’utilisateur</h2>
-        <p>Nombre de publications publiées : {{ nombrePublications }}</p>
-        <p>Nombre d'abonnés : {{ followersCount }}</p>
-        <p>Nombre d'abonnements : {{ followingsCount }}</p>
-        <h2>Abonnés</h2>
-<ul>
-    {% for follower in followers %}
-        <li>{{ follower.FollowerID.username }}</li>
-    {% endfor %}
-</ul>
-
-<h2>Abonnements</h2>
-<ul>
-    {% for following in followings %}
-        <li>{{ following.UserID.username }}</li>
-    {% endfor %}
-</ul>
-        
-
-    <p>Nom d'utilisateur: {{ user.username }}</p>
-    <p>Bio: {{ user.Bio }}</p>
-    <p>Email: {{ user.email }}</p>
-            <img src="{{ asset('/uploads/' ~ user.ProfilePicture) }}" alt="Photo de profile">
-        <img src="{{ asset('/uploads/' ~ user.ProfileCover) }}" alt="Photo de cover">
-
+    <div class="profil">
+        <div class="imgprofil">
+        <a href="{{ path('app_modify_profile') }}">
+        <img class="profil-cov" src="{{ asset('/uploads/' ~ user.ProfilePicture) }}" alt="Photo de profile"></a>
+        <img class="cover" src="{{ asset('/uploads/' ~ user.ProfileCover) }}" alt="Photo de cover">
 </div>
 
-<!-- Affichage des publications de l'utilisateur -->
+<div class="info">
+    <div class="info_stat">   
+            <span class="material-symbols-outlined">psychiatry</span>
+            <p>ecoScore : {{ user.ecoScore }}</p>
+    </div>
+    <div class="info_stat">   
+        <span class="material-symbols-outlined">psychiatry</span>
+        <p>Publications : {{ nombrePublications }}</p>
+    </div>
+
+    <div class="info_stat">   
+        <span class="material-symbols-outlined">psychiatry</span>
+        <p>Abonnés : {{ followersCount }}</p>
+    </div>
+
+    <div class="info_stat">   
+        <span class="material-symbols-outlined">psychiatry</span>
+        <p>Abonnements : {{ followingsCount }}</p>
+    </div>
+</div>
+<div class="bio">
+        <div class="bio-i">
+            <h2>Profil de l’utilisateur</h2>
+            <h1>{{ user.username }}</h1>
+            <p>{{ user.Bio }}</p>
+            <p>{{ user.email }}</p>
+        </div>
+        <div class="abone">
+            <h2>Abonnés</h2>
+            <ul>
+                {% for follower in followers %}
+                    <li>{{ follower.FollowerID.username }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        <div class="abonnements">
+            <h2>Abonnements</h2>
+            <ul>
+                {% for following in followings %}
+                    <li>{{ following.UserID.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+</div>
+
 <section>
 <h2>Publications</h2>
-<div>
+<div class="publication-mosaic">
     {% for data in publicationsData %}
-        <div>
-            <p>Posté par : {{ data.publication.userID.username | escape }}</p>
+        <div class="publication">
             <a href="{{ path('app_profil', {username: data.publication.userID.username}) }}">
             <img src="{{ asset('uploads/' ~ data.publication.userID.profilePicture) }}" alt="Profil de {{ data.publication.userID.username | escape }}" style="width: 40px;"></a>
-
-            <p>{{ data.publication.dateTime|date('Y-m-d H:i') }}</p>
-            <p>{{ data.publication.postType | escape }}</p>
-
+            <p>{{ data.publication.DateTime|date('Y-m-d H:i') }}</p>
             {% if data.fileType == 'image' %}
                 <img src="{{ asset('uploads/' ~ data.publication.postContent) }}" alt="Publication">
             {% elseif data.fileType == 'video' %}
@@ -140,38 +150,11 @@ document.querySelectorAll('.like-btn').forEach(button => {
                 <button onclick="location.href='{{ path('like_publication', {'id': data.publication.id}) }}'">Like</button>
             {% endif %}
             <span>{{ data.likesCount }} likes</span>
-             {% if data.likers|length > 0 %}
-            <p>Liked by:</p>
-            <ul>
-            {% for liker in data.likers %}
-                    <img src="{{ asset('uploads/' ~ liker.ProfilePicture) }}" alt="profil" style="width: 25px;">
-                    <li>{{ liker.Username }}</li>
-                
-            {% endfor %}
-
-            </ul>
-            {% endif %}
-
-            <!-- The comments section might need adjustment based on how you store and access comments in your data model -->
-            <div>
-                {% for commentaire in data.publication.commentaires %}
-                    <p>
-                        <img src="{{ asset('uploads/' ~ commentaire.userID.profilePicture) }}" alt="Profil de {{ commentaire.userID.username | escape }}" style="width: 25px;">
-                        {{ commentaire.userID.username | escape }}: {{ commentaire.content | escape }}
-                        <span style="font-size: 10px;">{{ commentaire.dateTime|date('Y-m-d H:i') }}</span>
-                    </p>
-                {% endfor %}
             </div>
-
-            <form id="commentForm" class="comment-form" data-publication-id="{{ data.publication.id }}" action="" method="post">
-                <input type="text" name="content" placeholder="Ajoutez un commentaire..." required>
-                <input type="hidden" name="publicationId" value="{{ data.publication.id }}">
-                <button type="submit">Commenter</button>
-            </form>
-        </div>
     {% else %}
         <p>Cet utilisateur n'a pas encore publié de contenu.</p>
     {% endfor %}
+    </div>
 </div>
 
 </section>

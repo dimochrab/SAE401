@@ -29,14 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Erreur:', error));
         });
     });
-    document.getElementById('commentForm').addEventListener('submit', function() {
-        // Trouvez le bouton de soumission dans le formulaire
-        var submitButton = this.querySelector('button[type="submit"]');
-        // Désactivez le bouton
-        submitButton.disabled = true;
-        // Changez le texte du bouton pour informer l'utilisateur
-        submitButton.textContent = 'Envoi en cours...';
-    });
 document.querySelectorAll('.like-btn').forEach(button => {
     button.addEventListener('click', function(e) {
         const publicationId = this.dataset.publicationId;
@@ -79,36 +71,55 @@ document.querySelectorAll('.like-btn').forEach(button => {
         <img class="profil-cov" src="{{ asset('/uploads/' ~ utilisateur.ProfilePicture) }}" alt="Photo de profile"></a>
         <img class="cover" src="{{ asset('/uploads/' ~ utilisateur.ProfileCover) }}" alt="Photo de cover">
 </div>
-        <h2>Profil de l’utilisateur</h2>
-    <p>Publications : {{ nombrePublications }}</p>
-    <p>Followers : {{ followersCount }}</p>
-    <p>Abonnements : {{ followingsCount }}</p>
-<h2>Abonnés</h2>
-<ul>
-    {% for follower in followers %}
-        <li>{{ follower.FollowerID.username }}</li>
-    {% endfor %}
-</ul>
+<div class="info">
+    <div class="info_stat">   
+        <span class="material-symbols-outlined">psychiatry</span>
+        <p>Publications : {{ nombrePublications }}</p>
+    </div>
 
-<h2>Abonnements</h2>
-<ul>
-    {% for following in followings %}
-        <li>{{ following.UserID.username }}</li>
-    {% endfor %}
-</ul>
+    <div class="info_stat">   
+        <span class="material-symbols-outlined">psychiatry</span>
+        <p>Abonnés : {{ followersCount }}</p>
+    </div>
 
-{% if utilisateur.ecoScore is not null %}
-    <p>Votre éco-score est : {{ utilisateur.ecoScore }}</p>
-{% else %}
-    <p>Vous n'avez pas encore passé le questionnaire éco-score.</p>
-    <a href="{{ path('eco_questionnaire') }}">Passer le questionnaire éco-score</a>
-{% endif %}
-    <p>Nom d'utilisateur: {{ utilisateur.username }}</p>
-    <p>Bio: {{ utilisateur.Bio }}</p>
-    <p>Email: {{ utilisateur.email }}</p>
-
-         <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
-
+    <div class="info_stat">   
+        <span class="material-symbols-outlined">psychiatry</span>
+        <p>Abonnements : {{ followingsCount }}</p>
+    </div>
+</div>
+<div class="bio">
+        <div class="bio-i">
+            <h2>Profil de l’utilisateur</h2>
+            <h1>{{ utilisateur.username }}</h1>
+            <p>{{ utilisateur.Bio }}</p>
+            <p>{{ utilisateur.email }}</p>
+            <a href="{{ path('app_modify_profile') }}">Modifier le profil</a>
+        </div>
+        <div class="abone">
+            <h2>Abonnés</h2>
+            <ul>
+                {% for follower in followers %}
+                    <li>{{ follower.FollowerID.username }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        <div class="abonnements">
+            <h2>Abonnements</h2>
+            <ul>
+                {% for following in followings %}
+                    <li>{{ following.UserID.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+</div>
+    <div class="eco-score">
+        {% if utilisateur.ecoScore is not null %}
+            <p>Votre éco-score est : {{ utilisateur.ecoScore }}</p>
+        {% else %}
+            <p>Vous n'avez pas encore passé le questionnaire éco-score.</p>
+            <a href="{{ path('eco_questionnaire') }}">Passer le questionnaire éco-score</a>
+        {% endif %}
+    </div>
 <h2>Publications</h2>
 <div class="publication-mosaic">
     {% for publication in publications %}

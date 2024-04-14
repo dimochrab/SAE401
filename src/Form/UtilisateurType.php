@@ -21,14 +21,17 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
+                'label' => false,
                 'attr' => ['placeholder' => 'Votre nom d\'utilisateur'],
                 'required' => false,
             ])
             ->add('email', EmailType::class, [
+                'label' => false,
                 'attr' => ['placeholder' => 'Votre adresse email'],
                 'required' => false,
             ])
             ->add('bio', TextareaType::class, [
+                'label' => false,
                 'attr' => ['placeholder' => 'Votre bio'],
                 'required' => false,
             ])
@@ -38,7 +41,7 @@ class UtilisateurType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '51200k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
@@ -53,7 +56,7 @@ class UtilisateurType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '2048k',
+                        'maxSize' => '51200k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
